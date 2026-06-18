@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSD Maintenance Learning Path - Mindmap</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="vsd-learning-path">
+
+        <h1>🧠 VSD Specialist Mindmap</h1>
+
+        <div id="auth-container"></div>
+
+        <div class="welcome-section">
+            <h2>แผนผัง 16 ระดับ</h2>
+            <p>
+                เลือกแท็บเพื่อดูแผนผังแต่ละมุมมอง — คลิกขวาที่รูปเพื่อบันทึกเป็น PNG
+            </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="mindmap-tabs">
+            <button class="mindmap-tab active" data-tab="master">Master Roadmap</button>
+            <button class="mindmap-tab" data-tab="career">Career Path</button>
+            <button class="mindmap-tab" data-tab="trouble">Troubleshooting</button>
+            <button class="mindmap-tab" data-tab="multidrive">Multidrive</button>
+            <button class="mindmap-tab" data-tab="sectional">Sectional Drive</button>
+            <button class="mindmap-tab" data-tab="tools">Tools</button>
+        </div>
+
+        <!-- Canvas -->
+        <div class="mindmap-canvas">
+
+            <!-- 1. Master Roadmap -->
+            <div class="mindmap-pane active" id="pane-master">
+                <pre class="mermaid">
+mindmap
+  root((VSD Drive<br/>Specialist))
+    L0 Foundation
+      Electrical fundamentals
+      Star/Delta wiring
+      Power electronics
+      Switchgear & fuses
+      Safety / LOTO / Arc flash
+      SLD & wiring diagrams
+      P&ID linkage
+    L1 Drive Basics
+      VSD principle V/Hz
+      Rectifier - DC bus - Inverter
+      6/12/18-pulse vs AFE
+      DC bus capacitors
+      IGBT bridge
+      PWM modulation
+      Carrier frequency
+      Brake chopper
+      Scalar / Vector / DTC
+    L2 Motor & Load
+      Induction motor
+      Slip & torque-speed
+      Motor cooling
+      Inverter-duty motor
+      Bearing currents
+      Synchronous & PM motor
+      Servo motor
+      Variable torque
+      Constant torque
+      Constant power
+      Reflected wave
+    L3 Single Drive
+      Wiring power+control
+      Speed reference sources
+      Start/stop modes
+      Accel/decel ramps
+      Protection settings
+      Safe Torque Off
+      Fault codes
+      Parameter backup
+      PM checklist
+    L4 Sectional Drive
+      Master speed reference
+      Draw control
+      Load sharing
+      Speed sync
+      Roll diameter calc
+      Tension control
+      Drive-to-drive comm
+      DCS/PLC integration
+    L5 Multidrive / DC Bus
+      LSU + INU architecture
+      DSU vs TSU vs AFE
+      DC bus sharing
+      Pre-charge sequence
+      Brake chopper on bus
+      Regenerative AFE
+      DC fuses & protection
+      Cascade fault analysis
+    L6 Control & Comm
+      PLC interface
+      Profibus DP
+      Profinet
+      Modbus RTU/TCP
+      EtherNet/IP
+      CANopen / EtherCAT
+      Drive parameterization
+      Interlock & permissive
+      Watchdog / failsafe
+    L7 Instrumentation
+      Incremental encoder
+      Absolute encoder
+      Resolver
+      Tachogenerator
+      Encoder shielding
+      Load cell
+      Dancer roll
+    L8 Power Quality
+      Harmonics THD
+      IEEE 519 limits
+      Voltage sag ride-through
+      EMC/EMI
+      Grounding strategy
+      Shielded VFD cable
+      Line/DC reactor
+      Passive harmonic filter
+      Active filter / AFE
+    L9 Troubleshooting
+      Fault code interpretation
+      First-fault logic
+      Parameter comparison
+      Motor IR + PI test
+      Winding resistance
+      Encoder scope check
+      DC bus check
+      IGBT failure symptoms
+      Comm fault diagnosis
+      Root cause analysis
+    L10 PM / PdM
+      Cooling fan strategy
+      Capacitor health ESR
+      Thermal inspection
+      Current trend
+      Vibration monitoring
+      Bearing condition
+      Cabinet temp monitor
+      Dust & humidity
+      Spare parts strategy
+    L11 Advanced Specialist
+      Drive tuning P/I/D
+      Speed loop tuning
+      Torque loop
+      Field weakening
+      Load sharing tuning
+      Sectional optimization
+      AFE troubleshooting
+      Cascade trip RCA
+      High-speed trace capture
+    L12 Brand Specific
+      ABB ACS800 / ACS880
+      Siemens SINAMICS
+      TMEIC TMdrive
+      Mitsubishi FR / MR-J
+      Schneider Altivar
+      Servo systems
+    L13 Tools
+      Multimeter CAT IV
+      Clamp meter
+      Megger 1kV
+      Oscilloscope
+      PQ analyzer
+      LCR meter
+      Thermal camera
+      Drive software
+    L14 Plant Projects
+      Fault code database
+      PM checklist
+      Parameter backup
+      Trip analysis
+      Cabinet temp monitoring
+      Overload trend
+      Troubleshooting guide
+    L15 AI / Smart Maint
+      Event log extraction
+      Fault Pareto
+      Anomaly detection
+      Predictive maint RUL
+      Thermal image AI
+      Grafana dashboard
+      Edge AI
+      Digital twin
+                </pre>
+            </div>
+
+            <!-- 2. Career Path -->
+            <div class="mindmap-pane" id="pane-career">
+                <pre class="mermaid">
+mindmap
+  root((Career Path))
+    Junior Tech 0-6 mo
+      L0 Foundation
+      L1 Basics
+      L2 Motor
+      L3 Single Drive
+    Drive Technician 6-18 mo
+      L4 Sectional
+      L5 Multidrive
+      L6 Communication
+    Drive Engineer 18-30 mo
+      L7 Instrumentation
+      L8 Power Quality
+      L9 Troubleshooting
+      L10 PM / PdM
+    Senior Specialist 30-48 mo
+      L11 Advanced Tuning
+      L12 Brand Mastery
+      L13 Tools Mastery
+    Drives Lead 48 mo+
+      L14 Plant Projects
+      L15 AI / Smart Maint
+      Mentoring
+      Brand Independence
+                </pre>
+            </div>
+
+            <!-- 3. Troubleshooting -->
+            <div class="mindmap-pane" id="pane-trouble">
+                <pre class="mermaid">
+mindmap
+  root((Drive Tripped))
+    Read Fault Code FIRST
+      Photograph HMI
+      Read event log
+      Note timestamps
+    Identify Fault Family
+      Overcurrent OC
+        Mechanical jam
+        Accel too short
+        Motor short
+      Overvoltage OV
+        Decel too fast
+        Brake chopper failed
+        Regen overflow
+      Undervoltage UV
+        Grid sag
+        Pre-charge fail
+        Input fuse blown
+      Earth fault
+        Cable damage
+        Motor winding
+      Motor overload I2t
+        Real overload
+        Wrong setting
+      Drive overtemp
+        Filter clogged
+        Fan failed
+        High ambient
+      Encoder fault
+        Cable
+        Coupling
+        Encoder body
+      Comm loss
+        Cable EMC
+        Master fault
+        Watchdog
+      IGBT desat
+        Hardware fail
+        DO NOT auto-reset
+    Cascade trip
+      Find first faulter
+      Time-sync logs
+      Trace correlation
+    After action
+      Document RCA
+      Update fault DB
+      Train others
+                </pre>
+            </div>
+
+            <!-- 4. Multidrive -->
+            <div class="mindmap-pane" id="pane-multidrive">
+                <pre class="mermaid">
+mindmap
+  root((Multidrive<br/>Common DC Bus))
+    Architecture
+      Line Supply Unit
+      Multiple Inverter Units
+      Shared DC bus bar
+      Brake unit
+      Common-mode choke
+    Front-End Types
+      DSU diode 6/12/18-pulse
+      TSU thyristor regen
+      AFE IGBT regen + clean
+    DC Bus Protection
+      DC-rated fuses
+      Pre-charge contactor
+      OV / UV monitoring
+      Earth fault detection
+    Energy Flow
+      Grid to LSU to DC bus
+      Motoring INUs draw
+      Decelerating INUs feed
+      Surplus to brake R or grid
+    Risks
+      Single point of failure
+      Fault propagation
+      Cascade trips
+      Inrush on big cap bank
+    Troubleshooting
+      Time-sync all logs
+      Identify first faulter
+      Check DC bus trace
+      Inspect DC fuses
+      Megger each INU
+    Brand Examples
+      ABB ACS800 Multidrive
+      ABB ACS880 Multidrive
+      Siemens SINAMICS S120
+      TMEIC TMdrive common DC
+                </pre>
+            </div>
+
+            <!-- 5. Sectional Drive -->
+            <div class="mindmap-pane" id="pane-sectional">
+                <pre class="mermaid">
+mindmap
+  root((Sectional Drive<br/>Paper Machine))
+    Sections
+      Wire
+      Press 1
+      Press 2
+      Dryer 1..N
+      Size press
+      Calender
+      Reel
+    Control Concept
+      Master speed reference
+      Followers cascade
+      Draw between sections
+      Sync error monitoring
+    Critical Loops
+      Speed loop each drive
+      Tension loop winder
+      Load sharing twin drives
+      Trim BW moisture
+    Feedback Devices
+      Encoder per roll
+      Load cell tension
+      Dancer position
+      Diameter sensor
+    Communication
+      Drive-to-drive fiber
+      Profinet to DCS
+      Time sync IEEE 1588
+    Failure Modes
+      Sheet break draw wrong
+      Wrinkle sync drift
+      Sheet flutter negative draw
+      Wraps shutdown sequence
+    Tuning
+      Speed loop per section
+      Draw setpoint table
+      Load share trim
+      Notch filter resonance
+                </pre>
+            </div>
+
+            <!-- 6. Tools -->
+            <div class="mindmap-pane" id="pane-tools">
+                <pre class="mermaid">
+mindmap
+  root((Field Tools))
+    Electrical Test
+      True-RMS multimeter CAT IV
+      DC clamp meter
+      Insulation tester 1kV
+      Micro-ohmmeter
+      Phase rotation meter
+      LCR meter
+    Signal & Diagnostic
+      Oscilloscope 4ch isolated
+      Power quality analyzer
+      Thermal camera 320x240
+      Vibration meter
+      Ultrasonic detector
+      Encoder simulator
+    Communication
+      Profinet sniffer Wireshark
+      Profibus tester
+      Modbus tools
+      USB RS485 RS232
+    Software
+      ABB Drive Composer
+      Siemens Startdrive
+      Schneider SoMove
+      Mitsubishi FR Configurator
+      TMEIC Toolbox
+      Wireshark plugins
+    Mechanical & Safety
+      Calibrated torque wrench
+      LOTO kit
+      Arc-rated PPE
+      Insulated tools 1kV
+                </pre>
+            </div>
+
+        </div><!-- end mindmap-canvas -->
+
+        <!-- Footer -->
+        <div class="lesson-footer">
+            <div class="lesson-nav">
+                <a href="roadmap.html" class="nav-button">🗺️ Roadmap View</a>
+                <a href="index.html" class="nav-button">🏠 กลับหน้าแรก</a>
+                <div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+mermaid.initialize({
+    startOnLoad: false,
+    theme: 'default',
+    mindmap: { padding: 16 }
+});
+
+async function renderActivePane() {
+    const activePane = document.querySelector('.mindmap-pane.active');
+    if (!activePane) return;
+    const pre = activePane.querySelector('pre.mermaid');
+    if (!pre || pre.dataset.rendered === 'true') return;
+
+    const code = pre.textContent.trim();
+    const id = 'mermaid-' + activePane.id;
+    try {
+        const { svg } = await mermaid.render(id, code);
+        pre.innerHTML = svg;
+        pre.dataset.rendered = 'true';
+    } catch (e) {
+        pre.innerHTML = '<p style="color:red;">Mermaid render error: ' + e.message + '</p>';
+    }
+}
+
+// Tab switching
+document.querySelectorAll('.mindmap-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.mindmap-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.mindmap-pane').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('pane-' + tab.dataset.tab).classList.add('active');
+        renderActivePane();
+    });
+});
+
+// Render initial tab
+renderActivePane();
+
+// Auth UI (reuse pattern)
+function renderAuthUI(user) {
+    const container = document.getElementById('auth-container');
+    if (!container) return;
+    container.innerHTML = '';
+    if (user) {
+        const name = user.displayName || user.email || 'Anonymous';
+        // textContent keeps a display name from injecting HTML (XSS-safe)
+        const span = document.createElement('span');
+        span.textContent = 'เข้าสู่ระบบ: ' + name;
+        const logoutBtn = document.createElement('button');
+        logoutBtn.id = 'logout-btn';
+        logoutBtn.textContent = 'ออกจากระบบ';
+        logoutBtn.onclick = () => firebase.auth().signOut();
+        container.append(span, logoutBtn);
+    } else {
+        const loginBtn = document.createElement('button');
+        loginBtn.id = 'login-google-btn';
+        loginBtn.textContent = 'เข้าสู่ระบบด้วย Google';
+        loginBtn.onclick = () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider);
+        };
+        container.append(loginBtn);
+    }
+}
+firebase.auth().onAuthStateChanged(renderAuthUI);
+</script>
+
+</body>
+</html>

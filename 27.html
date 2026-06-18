@@ -5,97 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSD Maintenance Learning Path - Lesson 27</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
-        
-        body {
-            font-family: 'Sarabun', sans-serif;
-            line-height: 1.7;
-            color: #333;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
-        }
 
-        .page-wrapper {
-            background-color: #f0f2f5;
-            padding: 0;
-            min-height: 100vh;
-        }
-        
-        .vsd-learning-path {
-            max-width: 1140px; 
-            margin: 0 auto; 
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 30px 45px 50px 45px;
-        }
-
-        h1 { color: #0056b3; font-size: 2.0em; font-weight: 700; text-align: center; margin-bottom: 15px; border-bottom: 2px solid #e9ecef; padding-bottom: 20px; }
-        h2 { color: #007bff; font-size: 1.6em; font-weight: 700; margin-top: 30px; margin-bottom: 20px; }
-        h3 { color: #17a2b8; font-size: 1.4em; font-weight: 700; margin-top: 35px; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #dee2e6; }
-        
-        .case-study h3 {
-            margin-top: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .conclusion h3 {
-            margin-top: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        h4 { color: #28a745; font-size: 1.2em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; }
-        .case-study h4,
-        .hypothetical-scenario h4,
-        .example-block h4 {
-            margin-top: 0;
-        }
-        p, ol li, ul li { font-size: 1.0em; margin-bottom: 15px; }
-        strong { color: #0056b3; font-weight: 700; }
-        ul { list-style: none; padding-left: 20px; }
-        ul li { padding-left: 30px; position: relative; margin-bottom: 10px; }
-        ul li::before { content: '✓'; position: absolute; left: 0; top: 0; color: #28a745; font-weight: bold; font-size: 1.2em; }
-        ol { padding-left: 40px; }
-        ol li { margin-bottom: 10px; }
-        
-        .example-block, .hypothetical-scenario, .case-study {
-            border-left: 5px solid #007bff; background-color: #f1f8ff; padding: 15px 20px; margin: 20px 0; border-radius: 8px;
-        }
-        .hypothetical-scenario { background-color: #fff9e1; border-left-color: #ffc107; }
-        .case-study { background-color: #e8f5e9; border-left-color: #4caf50; }
-        
-        .conclusion { margin-top: 40px; padding: 25px; background-color: #e9ecef; border-top: 3px solid #6c757d; border-radius: 8px; }
-
-        .exercises {
-            margin-top: 30px; padding: 20px; background-color: #fcf8e3; border: 1px solid #faebcc; border-radius: 8px;
-        }
-        .exercises h4 { color: #8a6d3b; margin-top: 0; }
-        
-        .safety-block {
-            background-color: #fdf2f2;
-            border-left: 5px solid #dc3545;
-            padding: 15px 20px;
-            margin-top: 20px;
-            border-radius: 8px;
-        }
-        .safety-block ul li::before {
-            content: '⚠️';
-            color: #dc3545;
-        }
-
-        @media (max-width: 768px) {
-            .page-wrapper { background-color: #ffffff; }
-            .vsd-learning-path { padding: 15px 15px 25px 15px; margin: 0; border-radius: 0; box-shadow: none; }
-            h1 { font-size: 1.7em; margin-top: 0; padding-bottom: 15px; }
-            h2 { font-size: 1.4em; margin-top: 20px; }
-            h3 { font-size: 1.25em; }
-            h4 { font-size: 1.1em; }
-            p, ul li, ol li { font-size: 0.95em; line-height: 1.65; }
-        }
-    </style>
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
     <div class="page-wrapper">
         <div class="vsd-learning-path">
@@ -235,32 +147,12 @@
             </div>
         </div>
     </div>
-<!-- Firebase SDKs (เวอร์ชันที่เข้ากันได้และใช้ง่าย) -->
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
-        <script>
-          // การตั้งค่า Firebase สำหรับเว็บแอปของคุณ
-          // !!! คำเตือน: เพื่อความปลอดภัย ควรไปสร้าง API Key ใหม่ใน Firebase Console แล้วนำมาเปลี่ยน !!!
-          const firebaseConfig = {
-            apiKey: "AIzaSyDmDvSOwdiEF0ZN5QWYpardsJZntdDVsNo",
-            authDomain: "vsd-maintenace-progressing.firebaseapp.com",
-            databaseURL: "https://vsd-maintenace-progressing-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "vsd-maintenace-progressing",
-            storageBucket: "vsd-maintenace-progressing.appspot.com",
-            messagingSenderId: "1070321938533",
-            appId: "1:1070321938533:web:92707b3bfff8c8f64bd68c",
-            measurementId: "G-HL45FSZLY2"
-          };
-
-          // เริ่มต้นการทำงาน Firebase
-          if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-          }
-        </script>
-
-        <!-- ไฟล์สคริปต์หลักของคุณ (ต้องอยู่หลัง Firebase) -->
-        <script src="scripts.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

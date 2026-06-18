@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSD Maintenance Learning Path - Specialist Roadmap</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="vsd-learning-path">
+
+        <h1>🗺️ Specialist Roadmap</h1>
+
+        <div id="auth-container"></div>
+
+        <div class="welcome-section">
+            <h2>🎯 เส้นทางสู่ผู้เชี่ยวชาญ VSD Drive</h2>
+            <p>
+                แผนการเรียนรู้ระดับมืออาชีพสำหรับวิศวกรไฟฟ้าซ่อมบำรุงที่ดูแลระบบ <strong>Single Drive, Sectional Drive, และ Multidrive / Common DC Bus</strong> ในโรงงานกระดาษ เหล็ก ปูนซีเมนต์ โรงไฟฟ้า และอุตสาหกรรมการผลิตแบบต่อเนื่อง
+            </p>
+            <ul>
+                <li>ครอบคลุม 16 ระดับ ตั้งแต่พื้นฐานจนถึงระดับ Specialist</li>
+                <li>มากกว่า 150 หัวข้อ พร้อมตัวอย่างจากโรงงานจริง</li>
+                <li>48 Milestones ที่ต้องลงมือปฏิบัติจริงในสนาม</li>
+                <li>ระยะเวลา 18-36 เดือน ขึ้นอยู่กับโอกาสในการสัมผัสงานจริง</li>
+            </ul>
+            <h4>วิธีใช้งานหน้านี้</h4>
+            <p>
+                คลิกที่หัวข้อแต่ละอันเพื่อดูรายละเอียด (เหตุผล, สิ่งที่ต้องใช้, ผลลัพธ์, ตัวอย่าง) — ทำเครื่องหมายที่ Milestone เมื่อทำสำเร็จในสนาม โดยความคืบหน้าจะถูกบันทึกอัตโนมัติเมื่อคุณเข้าสู่ระบบ
+            </p>
+        </div>
+
+        <!-- === Career progression === -->
+        <div class="career-section">
+            <h3>🚀 เส้นทางอาชีพ (Career Progression)</h3>
+            <div class="career-grid">
+                <div class="career-stage">
+                    <h4>Junior Tech</h4>
+                    <span class="duration">0–6 เดือน</span>
+                    <p>L0–L3 เปลี่ยน drive ภายใต้การดูแล</p>
+                </div>
+                <div class="career-stage">
+                    <h4>Drive Technician</h4>
+                    <span class="duration">6–18 เดือน</span>
+                    <p>L0–L6 commission single drive, comm พื้นฐาน</p>
+                </div>
+                <div class="career-stage">
+                    <h4>Drive Engineer</h4>
+                    <span class="duration">18–30 เดือน</span>
+                    <p>L0–L10 ดูแล PM, ทำ RCA, จัดการ PQ</p>
+                </div>
+                <div class="career-stage">
+                    <h4>Senior Specialist</h4>
+                    <span class="duration">30–48 เดือน</span>
+                    <p>L0–L13 จูน sectional drive, สอนคนอื่น</p>
+                </div>
+                <div class="career-stage">
+                    <h4>Drives Lead</h4>
+                    <span class="duration">48+ เดือน</span>
+                    <p>ครบทุก L รวมถึง project งานจริง + AI/PdM</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === Toolbar === -->
+        <div class="roadmap-toolbar">
+            <div class="roadmap-toolbar-group">
+                <span class="roadmap-toolbar-label">ระดับความยาก:</span>
+                <button class="roadmap-btn active" data-filter="all">ทั้งหมด</button>
+                <button class="roadmap-btn" data-filter="E">Easy</button>
+                <button class="roadmap-btn" data-filter="M">Medium</button>
+                <button class="roadmap-btn" data-filter="H">Hard</button>
+            </div>
+            <div class="roadmap-toolbar-group">
+                <span class="roadmap-progress-pill dim" id="ms-progress">Milestones: 0/48</span>
+                <button class="roadmap-btn" id="expand-all">ขยายทั้งหมด</button>
+                <button class="roadmap-btn" id="collapse-all">ย่อทั้งหมด</button>
+                <button class="roadmap-btn" id="print-btn">🖨️ พิมพ์</button>
+            </div>
+        </div>
+
+        <!-- === Levels === -->
+        <div class="roadmap-levels" id="levels"></div>
+
+        <!-- === Lesson footer (home button) === -->
+        <div class="lesson-footer">
+            <div class="lesson-nav">
+                <a href="mindmap.html" class="nav-button">🧠 Mindmap View</a>
+                <a href="index.html" class="nav-button">🏠 กลับหน้าแรก</a>
+                <div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal for topic details -->
+<div class="roadmap-modal" id="modal">
+    <div class="roadmap-modal-content">
+        <button class="roadmap-modal-close" id="modal-close" aria-label="ปิด">&times;</button>
+        <h3 id="modal-title"></h3>
+        <dl class="modal-meta" id="modal-meta"></dl>
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+/* ============================================================
+   ROADMAP DATA — 16 levels, 150+ topics, 48 milestones
+   ============================================================ */
+const ROADMAP = [
+  { id:"L0", num:"L0", title:"Foundation", subtitle:"พื้นฐานไฟฟ้า, ความปลอดภัย, อ่านแบบ", topics:[
+    {n:1,name:"Ohm's law, AC/DC, 3-phase basics",d:"E",why:"การคำนวณ fault ทั้งหมดเริ่มจากตรงนี้",input:"Voltmeter, multimeter",output:"คำนวณ V/I/P/PF ได้",example:"คำนวณ FLA จาก nameplate kW"},
+    {n:2,name:"Star/Delta, line vs phase voltage",d:"E",why:"ต่อผิด = มอเตอร์ไหม้",input:"Motor nameplate, terminal box",output:"ต่อ U1-V1-W1/U2-V2-W2 ถูกต้อง",example:"ต่อใหม่ มอเตอร์ 415/690 V dual-voltage"},
+    {n:3,name:"Transformer (Dyn11, vector group)",d:"M",why:"กำหนดวิธี earthing ของระบบ",input:"Nameplate, SLD",output:"แยก primary/secondary, neutral",example:"ทำไม RFI filter ระเบิดใน IT system"},
+    {n:4,name:"Cable sizing & voltage drop",d:"M",why:"สาย undersize = trip ไม่มีสาเหตุ, terminal ร้อน",input:"Load current, ระยะสาย",output:"เลือก cross-section + gland",example:"สาย 200 m จาก MCC ถึง roll drive"},
+    {n:5,name:"Earthing & bonding (TN-S, TN-C-S, IT)",d:"M",why:"Drive รั่ว HF — earth ผิด = trip ELCB ผิด",input:"แบบ earthing โรงงาน",output:"ระบุ system type, แยก PE vs FE",example:"Common-mode current trip ELCB ของ VSD circuit"},
+    {n:6,name:"Power electronics: diode, thyristor, IGBT, MOSFET",d:"M",why:"รู้ silicon = รู้ failure mode",input:"Datasheet, IGBT module",output:"ระบุ gate, collector, emitter",example:"ทำไม IGBT shoot-through ทำลาย DC bus"},
+    {n:7,name:"Switchgear: MCCB, MPCB, fuses (gG vs aR)",d:"M",why:"Fuse ผิด = drive ไฟไหม้แทนการ protect",input:"Plant SLD, fuse table",output:"เลือก aR fast-acting สำหรับ drive input",example:"เปลี่ยน gG เป็น aR หลัง IGBT ระเบิด"},
+    {n:8,name:"Safety, LOTO, Arc-flash, IEC 60204",d:"E",why:"การอยู่รอดของตัวเอง + compliance",input:"LOTO procedure, PPE matrix",output:"ทำ 7-step LOTO, คำนวณ incident energy",example:"Isolate drive cabinet ขณะเครื่องเดิน เพื่อเปลี่ยนพัดลม"},
+    {n:9,name:"Reading single-line diagrams (SLD)",d:"E",why:"การวิเคราะห์ fault ทุกครั้งเริ่มที่ SLD",input:"Plant SLD",output:"ลาก power flow source-to-motor ใน <2 นาที",example:"หาว่า transformer ตัวไหนป้อน dryer drives"},
+    {n:10,name:"Reading drive wiring diagrams",d:"M",why:"60% ของ fault อยู่ที่ field wiring",input:"Drive schematic, terminal list",output:"แม็พ terminal X1:7 ไปยังสายจริง",example:"ตามรอย Run command ที่ไม่ถึง drive"},
+    {n:11,name:"P&ID และการเชื่อม drive-process",d:"E",why:"เชื่อมโลกไฟฟ้า → กระบวนการผลิต",input:"Plant P&ID, motor list",output:"motor tag → drive tag → process loop",example:"M-301 pump on cooling water loop CL-12"},
+    {n:12,name:"Symbols: IEC vs ANSI/IEEE",d:"E",why:"แบบของแต่ละแบรนด์ต่างกัน — อ่านผิด = ทำผิด",input:"Sample drawings",output:"ระบุ CB, contactor, OL, drive ทั้งสองมาตรฐาน",example:"อ่านแบบ TMEIC (ANSI) vs ABB (IEC)"}
+  ], milestones:[
+    {id:"MS-0.1",text:"วาดมือเส้นทางไฟจาก utility transformer ถึง VSD-fed motor 75 kW ในโรงงานคุณ"},
+    {id:"MS-0.2",text:"ทำ LOTO ที่ drive panel ภายใต้การดูแล รวม DC bus discharge"},
+    {id:"MS-0.3",text:"ชี้ชื่อทุกชิ้นใน drive cabinet โดยไม่ดู label"},
+    {id:"MS-0.4",text:"คำนวณ fuse rating, cable size, voltage drop จาก motor list"}
+  ]},
+  { id:"L1", num:"L1", title:"Drive System Basics", subtitle:"VSD principle, rectifier→DC bus→inverter, control modes", tag:"Theory backbone", topics:[
+    {n:1,name:"What a VSD does (V/Hz law)",d:"E",why:"พื้นฐาน — เป็นกรอบของทุกหัวข้อต่อไป",input:"Motor + drive nameplate",output:"อธิบายทำไม fan motor ประหยัดที่ 70% speed",example:"เทียบบิลค่าไฟ cooling tower fan VSD vs DOL"},
+    {n:2,name:"Block diagram: rectifier→DC bus→inverter",d:"E",why:"Mental model สำหรับทุก fault",input:"Drive cabinet, manual",output:"ชี้และเรียกชื่อแต่ละ stage",example:"Pre-charge fault — หา pre-charge resistor"},
+    {n:3,name:"Rectifier types: 6/12/18-pulse, AFE",d:"M",why:"กำหนด harmonic + ความสามารถ regen",input:"SLD, drive type code",output:"ระบุ rectifier type จาก cabinet",example:"ACS880 + AFE vs ACS800 6-pulse"},
+    {n:4,name:"DC bus: capacitors, pre-charge, bleeder",d:"M",why:"DC bus = #1 จุดที่ failure รุนแรง",input:"Drive electrical drawing",output:"วัด DC bus voltage อย่างปลอดภัย",example:"DC bus 540 V บน drive 400 V — ตรวจก่อนแตะ"},
+    {n:5,name:"Inverter: 3-phase IGBT bridge",d:"M",why:"Output side fault สาวกลับมาที่นี่",input:"IGBT module datasheet",output:"ระบุ high/low IGBT, gate driver",example:"Phase-loss output trip = IGBT เปิดขาด"},
+    {n:6,name:"PWM modulation (sine-PWM, SVPWM)",d:"M",why:"อธิบายเสียง motor, dV/dt, bearing currents",input:"Oscilloscope ที่ output",output:"จดจำ PWM waveform + carrier freq",example:"เสียงหวีดของ motor = carrier freq setting"},
+    {n:7,name:"Carrier (switching) frequency tradeoff",d:"M",why:"สูง=เงียบ drive ร้อน; ต่ำ=เสียงดัง EMI",input:"Drive parameter",output:"เลือก 2-4 kHz default",example:"ลด carrier 8→4 kHz แก้ drive overheat"},
+    {n:8,name:"Braking chopper + braking resistor",d:"M",why:"ขนาดผิด = R ไหม้ หรือ DC OV trip",input:"Resistor nameplate, duty cycle",output:"คำนวณ R power สำหรับ decel",example:"Crane hoist + R 30% duty"},
+    {n:9,name:"Scalar / V-Hz control",d:"E",why:"Default สำหรับ fan/pump — ง่าย",input:"Drive parameter set",output:"ตั้ง V/Hz curve, boost, slip comp",example:"Pump 15 kW VSD ไม่ใช้ encoder"},
+    {n:10,name:"Vector control (sensorless / SVC)",d:"M",why:"ต้องใช้กับ torque control, low-speed",input:"Drive parameter, motor data",output:"ID-run motor, ตั้ง speed/torque limits",example:"Conveyor shock load — sensorless vector"},
+    {n:11,name:"Closed-loop vector (FOC + encoder)",d:"H",why:"จำเป็นใน sectional/winder/precision",input:"Encoder, drive parameter",output:"ตั้ง encoder PPR, ตรวจทิศ, gain",example:"Press section roll drive paper machine"},
+    {n:12,name:"DTC (Direct Torque Control)",d:"H",why:"เฉพาะ ABB — แนวคิด tuning ต่าง",input:"ABB ACS800/880 manual",output:"อธิบายทำไมไม่มี PWM carrier คงที่",example:"ACS800 winder run DTC ไม่มี encoder"},
+    {n:13,name:"Open-loop vs closed-loop decision tree",d:"M",why:"เลือกผิด = สมรรถนะแย่",input:"Application spec",output:"ตัดสินใจ control mode",example:"Rewinder ต้อง closed loop; cooling fan ไม่ต้อง"}
+  ], milestones:[
+    {id:"MS-1.1",text:"เปิด drive cabinet (มี supervisor) และชี้ rectifier, DC bus caps, IGBT, gate driver, control board, fans, brake chopper"},
+    {id:"MS-1.2",text:"จับภาพ scope: PWM output, motor current sinusoid, DC bus ripple"},
+    {id:"MS-1.3",text:"เทียบ scalar vs vector บน motor เดียวกัน บันทึก speed accuracy ที่ 5 Hz"}
+  ]},
+  { id:"L2", num:"L2", title:"Motor & Load Knowledge", subtitle:"Induction, synchronous, servo, load profiles", topics:[
+    {n:1,name:"Induction motor (squirrel cage)",d:"E",why:"90% ของ load — เริ่มที่นี่",input:"Cutaway drawing, real motor",output:"ระบุ stator, rotor, bearing, fan",example:"30 kW pump motor — หา data plate"},
+    {n:2,name:"Slip, sync speed, rotor losses",d:"E",why:"ทำไม 1480 rpm ไม่ใช่ 1500",input:"Nameplate, formula",output:"คำนวณ slip ที่ full load",example:"4-pole ที่ 49 Hz → rpm จริง"},
+    {n:3,name:"Torque-speed curve (DOL vs VFD)",d:"M",why:"Drive ทำให้ curve แบน",input:"Curve sheet",output:"ระบุ breakdown, pull-up, FLT",example:"ทำไม VFD-fed crusher restart มี load ไม่ได้"},
+    {n:4,name:"Motor cooling: TEFC, TENV, force-vent",d:"M",why:"ต่ำกว่า 25 Hz self-fan ไม่พอ",input:"Nameplate, plant spec",output:"รู้เมื่อต้อง force-cooling",example:"Sectional drive motor ที่ 5 Hz ต้อง aux fan"},
+    {n:5,name:"Insulation classes (B,F,H), inverter-duty",d:"M",why:"Standard motor + drive = bearing/insulation พัง",input:"Nameplate, IEC 60034-25",output:"ตรวจ VFD-rated/Inverter Duty",example:"Spec motor ใหม่สำหรับ AFD-fed line"},
+    {n:6,name:"Bearing currents & shaft grounding",d:"H",why:"Hidden killer ใน VSD-fed motor",input:"Shaft brush, insulated bearing",output:"ระบุ NDE-insulated bearing",example:"Fluted bearing fail บน drive motor 200 kW"},
+    {n:7,name:"Synchronous motor (PM, wound-rotor)",d:"M",why:"ใช้กับ compressor ใหญ่, paper machine",input:"Nameplate, PMSM datasheet",output:"แยก PMSM จาก induction",example:"Press section drives ใหม่เป็น PMSM"},
+    {n:8,name:"Servo motor (PMSM + encoder/resolver)",d:"M",why:"Cut-to-length, flying shears",input:"Servo datasheet",output:"แยก resolver vs absolute encoder",example:"Sheeter axis ที่ finishing line"},
+    {n:9,name:"Variable torque (fan, pump)",d:"E",why:"ใช้ V/Hz ได้, ประหยัดมาก",input:"Pump curve, affinity laws",output:"ประมาณ kW saved ที่ 80% speed",example:"Cooling tower fan VFD ROI"},
+    {n:10,name:"Constant torque (conveyor, extruder)",d:"M",why:"ต้องการ torque เต็มที่ความเร็วต่ำ",input:"Process spec",output:"เลือก control mode + cooling",example:"Belt conveyor on cement raw mill"},
+    {n:11,name:"Constant power (winder, unwinder)",d:"H",why:"Speed ↓ → torque ↑ keep tension",input:"Winder geometry",output:"คำนวณ torque vs roll diameter",example:"Reel drum on paper machine"},
+    {n:12,name:"High inertia (centrifuge, fan)",d:"M",why:"Ramp นาน, regen energy",input:"Inertia data",output:"คำนวณ decel time, brake R",example:"ID fan stop on power plant boiler"},
+    {n:13,name:"Sectional paper machine load",d:"H",why:"แต่ละ section interact ผ่าน web",input:"Machine speed diagram",output:"อ่านแนวคิด draw control",example:"Press ดึง dryer section"},
+    {n:14,name:"Reflected wave / long cable (>50 m)",d:"M",why:"แรงดันคูณสองที่ motor → insulation พัง",input:"Cable length, dV/dt spec",output:"เลือก dV/dt หรือ sine filter",example:"Cable 150 m ถึง outdoor cooling tower"}
+  ], milestones:[
+    {id:"MS-2.1",text:"อ่าน 10 motor nameplate กรอก: kW, FLA, RPM, eff, insulation, bearing"},
+    {id:"MS-2.2",text:"ระบุในโรงงาน: 1 fan, 1 conveyor, 1 winder load — ร่าง torque vs speed"},
+    {id:"MS-2.3",text:"ตรวจ 1 VSD-fed motor หาร่องรอย bearing fluting"}
+  ]},
+  { id:"L3", num:"L3", title:"Single Drive System", subtitle:"Wiring, parameters, protection, fault codes, PM", tag:"Entry role", tagClass:"specialist", topics:[
+    {n:1,name:"Apps (pump, fan, mixer, conveyor)",d:"E",why:"Drive ส่วนใหญ่ในโรงงานคือแบบนี้",input:"Equipment list",output:"แบ่งประเภท drive ในโรงงาน",example:"80% MCC drives ใน cement plant"},
+    {n:2,name:"Power wiring: fuse, reactor, drive, motor cable",d:"M",why:"แต่ละชิ้นมีเหตุผล — ต้องรู้",input:"Drive schematic",output:"อธิบายเหตุผลของแต่ละชิ้น",example:"ทำไม ABB แนะนำ 2% reactor บน 6-pulse"},
+    {n:3,name:"Control wiring: 24V, run/stop, ref, reset",d:"E",why:"ที่นี่คือที่ field troubles อยู่",input:"Wiring diagram",output:"ตามรอย start command DCS→drive DI",example:"Drive ไม่ start → check DI1 voltage"},
+    {n:4,name:"Speed reference sources",d:"M",why:"แหล่งผิด = drive อยู่ที่ 0 หรือ 100%",input:"Drive parameter, DCS config",output:"สลับ source, ตรวจ scaling",example:"Loss 4-20 mA → drive ทำอะไร? เช็ค P-config"},
+    {n:5,name:"Start/stop modes: 2-wire, 3-wire, fieldbus",d:"M",why:"สาเหตุที่ drive restart ไม่ได้หลัง fault",input:"Drive parameter manual",output:"ตั้ง 3-wire start + safety contactor",example:"E-stop → drive ต้อง reset cycle"},
+    {n:6,name:"Acceleration/deceleration ramps",d:"M",why:"Ramp ผิด = OC หรือ DC OV trip",input:"Drive parameter",output:"ตั้ง ramp ตาม inertia + load",example:"Crusher start: ramp 30 s กัน OC trip"},
+    {n:7,name:"Protection: I²t, OC, OV/UV, GF, stall",d:"M",why:"Drive คือ motor protector ด้วย",input:"Motor data, drive params",output:"ตั้ง I²t curve, OL trip class",example:"Boiler ID fan protection"},
+    {n:8,name:"Safe Torque Off (STO)",d:"H",why:"มาตรฐาน IEC 61800-5-2",input:"Wiring diagram, safety relay",output:"ตรวจ STO loop, test ทุกปี",example:"ใช้ STO แทน contactor บน press"},
+    {n:9,name:"Fault codes (OC, OV, UV, OT, stall)",d:"M",why:"ถอดรหัสก่อนเปิด cabinet",input:"Drive HMI / fault log",output:"ทำ list 10 อันดับ trip + วิธีแก้",example:"F0001 OC — checklist response"},
+    {n:10,name:"Parameter backup / restore",d:"E",why:"กัน outage 8 ชม. ตอนเปลี่ยน drive",input:"Drive Composer / Starter",output:"Backup ทั้งหมดเก็บที่ server",example:"Drive ใหม่มา → load saved file"},
+    {n:11,name:"Single-drive PM checklist",d:"E",why:"PM เป็นระบบ = ไม่มี surprise",input:"Drive manual PM",output:"ทำ PM ใน <2 ชม.",example:"Drive PM ใน annual shutdown"}
+  ], milestones:[
+    {id:"MS-3.1",text:"Commission drive 1 ตัวจบ: power, control, parameter, ID-run, test"},
+    {id:"MS-3.2",text:"วินิจฉัย 3 trip ต่างกันในสนาม + บันทึก root cause"},
+    {id:"MS-3.3",text:"ทำ parameter backup library อย่างน้อย 10 drives"}
+  ]},
+  { id:"L4", num:"L4", title:"Sectional Drive System", subtitle:"Master speed, draw, load sharing, sync — paper-mill core", topics:[
+    {n:1,name:"Sectional drive concept",d:"M",why:"Paper machine = section ต่อกัน",input:"Machine layout",output:"วาด wire→press→dryer→size→reel",example:"PM3 sectional layout sketch"},
+    {n:2,name:"Master speed reference / line speed",d:"M",why:"Reference เดียว cascade ทุก follower",input:"Master controller, DCS HMI",output:"ตามรอย master ref ถึง follower",example:"Wire ตั้ง speed; ที่เหลือตาม"},
+    {n:3,name:"Draw control",d:"H",why:"Draw ผิด = sheet break/wrinkle",input:"Draw setpoint table",output:"ปรับ draw ระหว่าง press 1-2",example:"Negative draw บน dryer 3 = sheet flutter"},
+    {n:4,name:"Load sharing (twin motors)",d:"H",why:"Roll เดียวขับด้วย 2 motor ต้อง share",input:"Drive load %, torque FB",output:"จูน master/follower torque sharing",example:"Yankee dryer twin drives"},
+    {n:5,name:"Speed sync + encoder feedback",d:"H",why:"Sectional ต้องการ <0.05% speed error",input:"Encoder PPR, drive FB",output:"ตรวจ sync, ตั้ง sync error alarm",example:"Couch roll vs press 1 sync"},
+    {n:6,name:"Roll diameter calculation",d:"H",why:"Tension control ขึ้นกับ D ที่ถูก",input:"Diameter sensor or calc",output:"ตั้ง D-calc จาก line speed + roll rpm",example:"Reel drum auto D-calc"},
+    {n:7,name:"Tension control (load cell vs dancer)",d:"H",why:"Tension แย่ = web break/รอยบนแผ่น",input:"Load cell, dancer position",output:"จูน tension PI loop",example:"Pope reel tension trim"},
+    {n:8,name:"Drive-to-drive comm (Master/Follower)",d:"H",why:"Sync torque/speed ระหว่าง section",input:"Optical link, fieldbus",output:"ตั้ง follower mode, ตรวจ timing",example:"ABB ACS800 D2D fiber link"},
+    {n:9,name:"DCS/PLC integration",d:"H",why:"DCS ทำ overall coordination",input:"Comm map, fieldbus",output:"อ่าน setpoint จาก DCS ลง drive",example:"Honeywell DCS to ACS880 over Profinet"},
+    {n:10,name:"Trim controls (BW, moisture, caliper)",d:"M",why:"Loop กระบวนการกระทบ drive demand",input:"Process feedback",output:"จับ trim ใน drive load trends",example:"Moisture trim เปิด valve → dryer drive load สูงขึ้น"},
+    {n:11,name:"Sectional shutdown sequence",d:"H",why:"ลำดับผิด = sheet wraps, mech damage",input:"Shutdown logic",output:"บันทึก E-stop + orderly stop",example:"E-stop ต้องให้ press section หมุนต่อจนหมด"}
+  ], milestones:[
+    {id:"MS-4.1",text:"ตามรอย master speed ref จาก DCS HMI → drive parameter อย่างน้อย 5 sections"},
+    {id:"MS-4.2",text:"สังเกต draw change ขณะ run + correlate กับ drive load %"},
+    {id:"MS-4.3",text:"ทำ sectional speed map: setpoint vs line speed ของทุก drive"}
+  ]},
+  { id:"L5", num:"L5", title:"Multidrive / Common DC Bus", subtitle:"LSU + INU architecture, regenerative units, cascade fault analysis", topics:[
+    {n:1,name:"LSU + INU บน shared DC bus",d:"M",why:"ต่างจาก single drive — fault เดียว = ทุกตัว",input:"Cabinet layout drawing",output:"แยก LSU vs INU; วาด DC bus bar",example:"ABB ACS800 Multidrive; SINAMICS S120"},
+    {n:2,name:"DSU vs TSU vs AFE / ISU",d:"H",why:"กำหนด regen + harmonic",input:"Drive type code, SLD",output:"แยก motoring-only vs 4-quadrant",example:"DSU = ต้อง brake R; AFE = regen ขึ้น grid"},
+    {n:3,name:"DC bus sharing principle",d:"H",why:"พลังงาน decel feed motoring section อื่น",input:"DC bus measurement",output:"อธิบายทำไม kW จาก grid < รวม motor kW",example:"Press regen ขณะ slow ลง feed dryer"},
+    {n:4,name:"Pre-charge sequence on shared bus",d:"H",why:"Inrush บน cap bank ใหญ่ = fuse ขาด",input:"Pre-charge contactor diagram",output:"ตามลำดับ pre-charge → main contactor",example:"LSU pre-charge ก่อนให้ INU enable"},
+    {n:5,name:"Common-mode chokes + DC bus EMC",d:"H",why:"DC bus ยาว = HF noise + ground current",input:"Cabinet drawing",output:"ระบุตำแหน่ง CM choke",example:"ทำไม DC bus มี wraparound choke"},
+    {n:6,name:"Brake chopper + brake R on DC bus",d:"M",why:"ใช้เมื่อไม่มี AFE และ load motor ไม่ได้",input:"Resistor cabinet",output:"ตรวจ R cooling, monitor chopper duty",example:"Crane ลง ขณะ drive อื่นไม่ motor"},
+    {n:7,name:"Regenerative unit (AFE / IGBT supply)",d:"H",why:"ประหยัดพลังงาน + harmonic ดี",input:"LSU type, grid impedance",output:"ตรวจ grid sync, LCL filter",example:"ACS880 IGBT supply unit on rolling mill"},
+    {n:8,name:"Advantages: คาบีเน็ตเล็ก, ประหยัดพลังงาน",d:"M",why:"Justify การเลือก architecture",input:"Plant energy data",output:"คำนวณพลังงาน saved",example:"Energy หลัง multidrive retrofit"},
+    {n:9,name:"Risks: SPOF, fault propagation",d:"H",why:"INU ตัวเดียว IGBT short = bus ล้ม",input:"Drive logs, fault tree",output:"ระบุ isolation strategy",example:"DC fuse ขาดที่ INU 4 → bus UV trip ทุกตัว"},
+    {n:10,name:"DC bus protection: fuses, OV/UV",d:"H",why:"Critical — protection fail = ไฟไหม้",input:"Drive manual, fuse type",output:"ตรวจ fuse type (DC-rated, ultrafast)",example:"ใส่ AC fuse บน DC bus = เสี่ยงไฟไหม้"},
+    {n:11,name:"Multidrive troubleshooting",d:"H",why:"Skill ของ senior engineer",input:"Drive event logs, scope on DC bus",output:"ระบุตัว fail จาก timestamp + fault",example:"All drives tripped — หา first faulter"}
+  ], milestones:[
+    {id:"MS-5.1",text:"เปิด multidrive cabinet (de-energized) ระบุ LSU, DC bus bar, INU แต่ละตัว, brake unit, CM choke"},
+    {id:"MS-5.2",text:"จับ DC bus voltage ระหว่าง start-stop cycle + แยก motoring vs regen"},
+    {id:"MS-5.3",text:"บันทึก DC bus protection scheme + fuse type ในโรงงานคุณ"}
+  ]},
+  { id:"L6", num:"L6", title:"Control & Communication", subtitle:"PLC interface, fieldbus, parameterization, watchdog logic", topics:[
+    {n:1,name:"PLC interface (DI, DO, AI, AO)",d:"E",why:"Hard-wire backup ของ fieldbus",input:"Drive I/O list",output:"แม็พ I/O ระหว่าง PLC ↔ drive",example:"Run permissive on DI, fault on DO"},
+    {n:2,name:"Analog signal scaling (4-20mA, 0-10V)",d:"M",why:"Scale ผิด = speed ผิด",input:"Drive AI parameter, PLC AO",output:"ตรวจ scaling end-to-end",example:"4 mA = 0%, 20 mA = 100% line speed"},
+    {n:3,name:"Profibus DP",d:"M",why:"Legacy แต่ยังครึ่งหนึ่งของ install base",input:"Drive GSD, PLC config",output:"ตั้ง address, watchdog",example:"ACS800 + RPBA-01"},
+    {n:4,name:"Profinet",d:"M",why:"แทน Profibus, Ethernet-based",input:"GSDML, IP plan",output:"ตั้ง device name, IP, IRT",example:"SINAMICS on S7-1500"},
+    {n:5,name:"Modbus RTU/TCP",d:"M",why:"ถูก, ใช้ทั่วไปบน drive เล็ก",input:"Register map",output:"อ่าน/เขียน speed ref, fault word",example:"ATV320 on Modbus TCP to AB PLC"},
+    {n:6,name:"EtherNet/IP",d:"M",why:"Rockwell ecosystem",input:"EDS file",output:"ตั้ง CIP connection, RPI",example:"PowerFlex 755 on ControlLogix"},
+    {n:7,name:"CANopen",d:"M",why:"Servo + machine drive เล็ก",input:"EDS, node ID",output:"PDO mapping",example:"MR-J4 servo on CANopen"},
+    {n:8,name:"EtherCAT",d:"H",why:"Motion ความเร็วสูง",input:"ESI file",output:"DC sync, slave mapping",example:"Beckhoff line + Sinamics S120"},
+    {n:9,name:"Drive parameterization tools",d:"E",why:"Software ใช้ทุกวัน",input:"Laptop, comm cable",output:"Connect, read, write, compare",example:"Drive Composer สำหรับ ACS880"},
+    {n:10,name:"Interlock & permissive logic",d:"M",why:"Interlock ผิด = restart ไม่ปลอดภัย",input:"PLC ladder, drive DI map",output:"บันทึก run permissive chain",example:"Conveyor run ไม่ได้ถ้า upstream หยุด"},
+    {n:11,name:"Speed reference cascading",d:"H",why:"Delay 1 วินาทีที่ใดที่หนึ่ง = control แย่",input:"Comm trace tool",output:"วัด end-to-end latency",example:"DCS setpoint ถึง drive ใน <100 ms"},
+    {n:12,name:"Watchdog / heartbeat / failsafe",d:"H",why:"เกิดอะไรเมื่อ comm ตาย",input:"Drive parameter",output:"ตั้ง: stop / hold / max ref",example:"Comm loss → drive hold last speed 2 s แล้ว stop"},
+    {n:13,name:"Time sync (NTP / IEEE 1588)",d:"M",why:"ต้อง correlate fault log",input:"Plant time server",output:"ตรวจ drive clock = PLC",example:"All drives tripped at 14:23:07 — ต้อง clock ตรง"}
+  ], milestones:[
+    {id:"MS-6.1",text:"ตั้ง drive 1 ตัวบน fieldbus จากศูนย์: device name, IP, GSD/EDS, telegram"},
+    {id:"MS-6.2",text:"ทำ comm loss (ดึงสาย) + บันทึกพฤติกรรม drive + ตรวจ comm loss action"},
+    {id:"MS-6.3",text:"จับ fieldbus trace (Wireshark/Profibus tester) ระบุ telegram speed-ref"}
+  ]},
+  { id:"L7", num:"L7", title:"Instrumentation & Feedback", subtitle:"Encoders, resolvers, load cells, tension, troubleshooting", topics:[
+    {n:1,name:"Incremental encoder (TTL, HTL, RS-422)",d:"M",why:"Speed feedback ที่พบบ่อยที่สุด",input:"Encoder datasheet, scope",output:"ตรวจ A/B/Z, ตั้ง PPR",example:"1024 PPR HTL on press roll"},
+    {n:2,name:"Absolute encoder (SSI, EnDat, BiSS)",d:"H",why:"Position FB ไม่ต้อง home",input:"Module type, encoder spec",output:"ตั้ง protocol, multi-turn",example:"Reel position absolute encoder"},
+    {n:3,name:"Resolver",d:"H",why:"FB ทนทาน, สภาพแวดล้อมโหด",input:"Resolver datasheet",output:"ตรวจ excitation, sin/cos ratio",example:"Steel mill servo + resolver"},
+    {n:4,name:"Tachogenerator (DC tach)",d:"M",why:"DC drive เก่า — ยังใช้อยู่",input:"Tach voltage, polarity",output:"ตรวจ V/krpm, polarity",example:"DC drive เก่าบน lime kiln"},
+    {n:5,name:"Encoder cable shielding/grounding",d:"H",why:"สาเหตุอันดับ 1 ของ encoder fault",input:"Cable spec, gland",output:"Shield single-end, twisted pair, แยกจาก power",example:"Encoder noise จากใกล้ cable 690 V"},
+    {n:6,name:"Encoder signal scope check",d:"H",why:"Skill วินิจฉัยช่องที่เสีย",input:"Oscilloscope",output:"หา missing Z, jitter, clipping",example:"Sectional sync alarm — Z-pulse หาย"},
+    {n:7,name:"Load cell (tension)",d:"M",why:"Sectional/winder tension control",input:"Load cell, amplifier",output:"Calibrate zero & span, ตรวจ mV/V",example:"Press section load cell drift"},
+    {n:8,name:"Dancer roll feedback",d:"M",why:"Mechanical FB สำหรับ tension",input:"Position transducer",output:"ตั้ง neutral position, gain",example:"Unwinder dancer on coater"},
+    {n:9,name:"Speed-FB troubleshooting tree",d:"H",why:"แนวทางเป็นระบบเมื่อ speed FB lost",input:"Trip log + scope",output:"Cable → encoder → module → drive",example:"Vector mode trip encoder fault"},
+    {n:10,name:"Encoder coupling / mechanical",d:"M",why:"Coupling หลวม = phantom fault",input:"Visual + IR",output:"ตรวจ coupling, key, set screw",example:"Drive trip ที่ speed บางค่าเท่านั้น = coupling slip"}
+  ], milestones:[
+    {id:"MS-7.1",text:"Scope ทั้ง 6 สัญญาณ (A,/A,B,/B,Z,/Z) ของ HTL encoder ภายใต้ load + บันทึก waveform"},
+    {id:"MS-7.2",text:"Calibrate load cell ที่ tension stand (zero+span) + ตรวจด้วยน้ำหนักรู้ค่า"},
+    {id:"MS-7.3",text:"เปลี่ยน encoder ในสนาม — alignment, coupling, parameter"}
+  ]},
+  { id:"L8", num:"L8", title:"Power Quality & Harmonics", subtitle:"THD, sags, EMC, grounding, filters, AFE", topics:[
+    {n:1,name:"Harmonic distortion (THD)",d:"M",why:"Drive สร้าง — transformer/cap ทุกข์",input:"PQ analyzer",output:"วัด THD-V, THD-I ที่ PCC",example:"6-pulse 30% THD-I; AFE 3%"},
+    {n:2,name:"IEEE 519 / IEC 61000-2-4 limits",d:"H",why:"Compliance กับ utility/customer",input:"Grid impedance, Isc/IL",output:"คำนวณ THD-I ที่อนุญาต",example:"Mill PCC THD review for utility"},
+    {n:3,name:"Voltage sag / dip ride-through",d:"H",why:"Dip สั้น = trip รวม, restart นาน",input:"Drive UV trip, sag log",output:"ตั้ง ride-through, kinetic buffering",example:"Mill-wide trip จาก grid dip 100 ms"},
+    {n:4,name:"EMC/EMI sources from drive",d:"H",why:"กระทบ encoder, instrument, วิทยุ",input:"EMC standard, plant layout",output:"แยก common-mode vs differential",example:"DCS card reset ใกล้ drive cabinet"},
+    {n:5,name:"Grounding strategy",d:"H",why:"HF current ต้อง return path สั้น",input:"Plant earthing drawing",output:"Bond cabinet, motor, enclosure",example:"เพิ่ม bonding strap แก้ encoder noise"},
+    {n:6,name:"Motor cable: shielded VFD cable",d:"M",why:"80% ของ EMC = termination ผิด",input:"Cable cross-section",output:"360-degree shield termination ทั้งสองข้าง",example:"หลัง re-gland encoder error หาย"},
+    {n:7,name:"Line reactor (3%/5%)",d:"E",why:"ลด harmonic, ปกป้อง rectifier",input:"Drive nameplate",output:"Spec 3% AC reactor input",example:"Standard ทุก drive >55 kW"},
+    {n:8,name:"DC reactor (link choke)",d:"M",why:"Built-in หลายแบรนด์ — purpose เดียวกัน",input:"Drive type",output:"ตรวจ DC choke ใน topology",example:"ACS800 มี DC choke integrated"},
+    {n:9,name:"Passive harmonic filter (tuned LC)",d:"H",why:"ลด 6-pulse ลงเหลือ ~8% THD-I",input:"Filter datasheet, cap health",output:"Tune to 5th harmonic",example:"หลัง mill ขยาย ใส่ 5th-tuned filter"},
+    {n:10,name:"Active filter / AFE",d:"H",why:"Harmonic+regen+PF ดีที่สุด",input:"AFE drive",output:"ตรวจ LCL filter, current control",example:"Paper machine ใหม่ spec AFE"},
+    {n:11,name:"Power factor with VSDs",d:"M",why:"ต่างจาก contactor-fed motor",input:"PQ analyzer",output:"แยก displacement vs distortion PF",example:"ทำไม kVA bill สูงหลัง VSD retrofit"},
+    {n:12,name:"dV/dt and sine filters",d:"H",why:"กัน motor insulation บน cable ยาว",input:"Cable length, motor BIL",output:"Spec filter type ตามความยาวสาย",example:"Cable 200 m → sine filter mandatory"}
+  ], milestones:[
+    {id:"MS-8.1",text:"วัด THD-V, THD-I ที่ MCC ด้วย PQ analyzer + report ตาม IEEE 519"},
+    {id:"MS-8.2",text:"ตรวจ 5 motor-cable gland — re-terminate ที่ shield ไม่ครบ 360°"},
+    {id:"MS-8.3",text:"บันทึก sag event จาก plant power monitor + correlate กับ drive trip log"}
+  ]},
+  { id:"L9", num:"L9", title:"Troubleshooting Skill Path", subtitle:"Fault codes, first-fault, RCA, scope, IGBT diagnosis", tag:"Core competency", tagClass:"core", topics:[
+    {n:1,name:"Fault code interpretation",d:"M",why:"เริ่มที่ fault code เสมอ ไม่ใช่ความเห็น",input:"Drive HMI fault code + manual",output:"แปล code → physical cause → action",example:"F0007 Motor stall — เช็ค mechanical ก่อน"},
+    {n:2,name:"Alarm history & first-fault logic",d:"H",why:"Trip ตัวแรกตัดสินทุกอย่าง",input:"Drive event log, time-sync",output:"ระบุ first faulter ใน cascade",example:"6 drive trip: INU 3 OC, ที่เหลือ UV"},
+    {n:3,name:"Parameter comparison vs golden backup",d:"M",why:"30% ของ ghost issues = มีคนแก้ param",input:"Backup file, compare tool",output:"Diff vs commissioning baseline",example:"Drive ช้า — torque limit ถูกแก้ 200%→100%"},
+    {n:4,name:"Motor IR + PI test",d:"E",why:"พื้นฐานที่สุด — และมักถูกข้าม",input:"500/1000 V megger",output:"IR > 100 MΩ, PI > 2",example:"หลัง flooding — IR ก่อน re-energize"},
+    {n:5,name:"Motor winding resistance balance",d:"M",why:"Single-phase fault, turn-to-turn",input:"Micro-ohmmeter",output:"3 phase ห่างกัน <5%",example:"หลัง earth fault trip"},
+    {n:6,name:"Encoder signal check (scope)",d:"H",why:"ทบทวน L7 — ใช้เป็นขั้น troubleshoot",input:"Oscilloscope",output:"A/B 90°, Z 1/rev, no jitter",example:"Sectional sync alarm"},
+    {n:7,name:"DC bus voltage check",d:"M",why:"วินิจฉัย rectifier, cap, regen",input:"True RMS DMM, scope",output:"Idle ≈ 1.35×Vline; ripple <5%",example:"Cap aging → ripple สูง, OV trip"},
+    {n:8,name:"IGBT failure symptoms",d:"H",why:"Hands-on — กลิ่นไหม้, fuse ขาด",input:"Visual, megger phase-DC bus",output:"ระบุ IGBT short/open",example:"หลัง trip รุนแรง — หา leg ที่พัง"},
+    {n:9,name:"Communication fault diagnosis",d:"H",why:"ครึ่งหนึ่งของ fault สมัยใหม่",input:"Sniffer (Wireshark, Profibus)",output:"หา lost telegram, watchdog timeout",example:"Comm loss แค่ 50% load = cable EMC"},
+    {n:10,name:"RCA (5-Why, fishbone)",d:"M",why:"แก้ทั้ง symptom และ cause",input:"RCA template",output:"บันทึก RCA ทุก major trip",example:"OC trip ซ้ำ จริงๆคือ impeller อุดตัน"},
+    {n:11,name:"First-10-Minutes checklist",d:"M",why:"วินัยช่วยเครื่องจักร",input:"Plant fault response card",output:"ทำตามลำดับใต้ความกดดัน",example:"OC trip dryer drive — ตามการ์ด ไม่แตกตื่น"}
+  ], milestones:[
+    {id:"MS-9.1",text:"วินิจฉัย 10 unique drive fault ข้าม 3 แบรนด์ + log เข้า plant fault DB"},
+    {id:"MS-9.2",text:"นำ RCA (5-Why) ของ trip ที่ซ้ำ + present plant engineering"},
+    {id:"MS-9.3",text:"สอน junior เรื่อง First-10-Minutes card + ตรวจสอบโดยสังเกต"}
+  ]},
+  { id:"L10", num:"L10", title:"Preventive & Predictive Maintenance", subtitle:"Cooling fans, capacitor health, thermal, vibration, spares", topics:[
+    {n:1,name:"Cooling fan inspection & replacement",d:"E",why:"พัดลมเสีย = drive thermal trip ในหน้าร้อน",input:"Fan run-hour log",output:"เปลี่ยนที่ 80% ของอายุ",example:"ACS800 main fan @ 35,000 ชม."},
+    {n:2,name:"DC capacitor health (ESR)",d:"M",why:"Cap แก่ = OV/ripple trip, ระเบิดได้",input:"LCR meter, drive cap-test mode",output:"Trend ESR รายปี",example:"Drive อะไหล่ idle 3 ปี → reform ก่อน"},
+    {n:3,name:"Thermal inspection (IR camera)",d:"M",why:"หา terminal หลวม, ส่วนกำลังตาย",input:"Thermal camera",output:"ΔT > 20 K vs reference = act",example:"พบ fuse holder ร้อนก่อนไฟไหม้"},
+    {n:4,name:"Current trend monitoring",d:"M",why:"Drift ช้า = bearing สึก, impeller อุดตัน",input:"Drive current log",output:"ตรวจจับเพิ่ม 5-10% ใน 30 วัน",example:"Pump current สูงขึ้น = impeller scaling"},
+    {n:5,name:"Vibration monitoring",d:"M",why:"Motor bearing, fan bearing",input:"Vibration meter / sensor",output:"ISO 10816 thresholds",example:"Drive cabinet fan vibration warning"},
+    {n:6,name:"Motor bearing condition",d:"M",why:"จับ failure ก่อนรุนแรง",input:"SPM, ultrasonic, IR",output:"Trend dB peak",example:"Sectional drive motor bearing เปลี่ยนทัน"},
+    {n:7,name:"Drive cabinet temperature monitoring",d:"E",why:"View real-time, ฤดูร้อน vs หนาว",input:"PT100 in cabinet, PLC",output:"Alarm 40°C, trip 50°C",example:"Summer ambient warning"},
+    {n:8,name:"Dust & humidity control",d:"M",why:"ฝุ่นนำไฟฟ้า = phase-to-phase short",input:"Filter ΔP, hygrometer",output:"เปลี่ยน filter รายเดือน, RH 30-60%",example:"Cement plant pre-filter regime"},
+    {n:9,name:"Spare-parts strategy",d:"M",why:"Spare ถูก = MTTR 4 ชม. แทน 4 วัน",input:"BOM, criticality matrix",output:"Stock ตาม drive class",example:"LSU, INU, fan, control board สำหรับ 5 critical"},
+    {n:10,name:"Firmware management",d:"M",why:"Firmware ผิด = bug ละเอียด",input:"Drive firmware version log",output:"Standardize ตาม drive type",example:"Mixed firmware ทำ sync drift"},
+    {n:11,name:"Capacitor reforming (idle drives)",d:"H",why:"Drive เก็บไว้ cap loses forming",input:"Variac, time-controlled",output:"Step-up energization",example:"หลัง 12 เดือน storage"}
+  ], milestones:[
+    {id:"MS-10.1",text:"ทำ PM calendar อย่างน้อย 20 drive ครอบคลุม daily/monthly/annual"},
+    {id:"MS-10.2",text:"Thermal scan ทุก critical drive cabinet ขณะ peak load + รายงาน hot spot"},
+    {id:"MS-10.3",text:"บันทึก spare parts inventory + criticality + lead time"}
+  ]},
+  { id:"L11", num:"L11", title:"Advanced Specialist", subtitle:"Drive tuning, sectional optimization, cascade fault analysis", tag:"Advanced", tagClass:"advanced", topics:[
+    {n:1,name:"Drive tuning (P, I, D)",d:"H",why:"Gain ผิด = oscillate หรือ ช้า",input:"Drive parameter, scope/trace",output:"Tune step response",example:"Press section roll oscillate ที่ 0.5 Hz"},
+    {n:2,name:"Speed loop tuning",d:"H",why:"Loop ที่ใช้บ่อยที่สุด",input:"Speed ref + FB trace",output:"Damped step, no overshoot",example:"Reel drum speed loop tune"},
+    {n:3,name:"Current/torque loop",d:"H",why:"Torque limit ผิด = mechanical break",input:"Current trace",output:"ตรวจพฤติกรรม torque-limit",example:"Belt rip ตอน start เพราะ torque limit สูง"},
+    {n:4,name:"Field weakening region",d:"H",why:"High-speed ต้องการ; instability",input:"Motor data, drive trace",output:"ตรวจ smooth transition",example:"Centrifuge above base speed"},
+    {n:5,name:"Load sharing tuning (master/follower)",d:"H",why:"Critical บน dual-motor section",input:"Both drives torque + speed",output:"Equal torque ±2%",example:"Yankee dryer twin-drive"},
+    {n:6,name:"Sectional drive optimization",d:"H",why:"5% สุดท้ายของ performance",input:"Process trace, drive trace",output:"ลด sheet break rate",example:"PM speed +20 m/min หลัง optimize"},
+    {n:7,name:"Regenerative drive troubleshooting",d:"H",why:"AFE fault ต่างจาก motoring",input:"AFE log, grid sync trace",output:"วินิจฉัย grid-side fault",example:"AFE trip จาก grid notch ของ welder"},
+    {n:8,name:"Common DC bus fault analysis",d:"H",why:"Signature skill ของ senior",input:"All drives synchronized trace",output:"ระบุ originator + timestamp",example:"Bus crash 03:14:22 → INU 4 desat first"},
+    {n:9,name:"High-speed event capture",d:"H",why:"เห็น microsecond ก่อน trip",input:"Drive trace tool, sample 1 kHz+",output:"Capture 1 s pre-fault, 0.5 s post",example:"จับ IGBT desat 200 µs ก่อน trip"},
+    {n:10,name:"Inertia identification, friction comp",d:"H",why:"Aid สำหรับ high-performance",input:"ID-run with load, manual tune",output:"Improved transient response",example:"Calender drive หลัง inertia ID"},
+    {n:11,name:"Notch/resonance filter",d:"H",why:"Mechanical resonance ทำ tuning พัง",input:"FFT of speed FB",output:"Notch ที่ resonance frequency",example:"Press roll mechanical mode 38 Hz"}
+  ], milestones:[
+    {id:"MS-11.1",text:"Tune closed-loop drive จาก default → plant-spec + บันทึก trace ก่อน/หลัง"},
+    {id:"MS-11.2",text:"นำ cascade-trip RCA บน multidrive + ระบุ first-faulter จาก trace"},
+    {id:"MS-11.3",text:"Optimize draw หรือ sync ของ section หนึ่ง — ส่ง KPI วัดได้ (sheet break ↓, speed ↑)"}
+  ]},
+  { id:"L12", num:"L12", title:"Brand-Specific Path", subtitle:"ABB, Siemens, TMEIC, Mitsubishi, Schneider, servo", topics:[
+    {n:1,name:"ABB ACS800 (legacy multidrive)",d:"M",why:"Workhorse, DTC, DriveWindow",input:"ACS800-07/17/37 manual",output:"แยก cabinet types, top fault",example:"Backup parameter ผ่าน DriveWindow"},
+    {n:2,name:"ABB ACS880 (current-gen)",d:"M",why:"Drive Composer, Adaptive Programming, STO",input:"ACS880 firmware manual",output:"FENA/FPNO modules, ZMU clone",example:"Memory unit swap to clone drive"},
+    {n:3,name:"ABB DCS800/880 (DC)",d:"M",why:"โรงเก่ายังมี",input:"DCS800 Tool",output:"Thyristor firing, field control",example:"4-quadrant regenerative DC"},
+    {n:4,name:"Siemens SINAMICS S120",d:"M",why:"Booksize/chassis, DRIVE-CLiQ",input:"Starter / Startdrive / TIA",output:"ALM/SLM/BLM choice, CU320-2",example:"S120 multidrive + ALM"},
+    {n:5,name:"Siemens G120/G130/G150/S150",d:"E",why:"General-purpose family",input:"G120 PM240-2 + CU240E-2",output:"Parameterize, fieldbus",example:"G150 cabinet drive on Profinet"},
+    {n:6,name:"TMEIC TMdrive",d:"M",why:"Steel, paper, large applications",input:"Toolbox software",output:"DDU operation, common DC bus",example:"TMdrive on rolling mill"},
+    {n:7,name:"Mitsubishi FR-A800 / MR-J4",d:"E",why:"Machine tools, packaging",input:"FR Configurator2",output:"CC-Link integration",example:"MR-J4 on flying cutoff"},
+    {n:8,name:"Schneider Altivar",d:"E",why:"Process plants",input:"SoMove software",output:"Fieldbus integration, top faults",example:"ATV930 on cooling tower fan"},
+    {n:9,name:"Servo drive systems (general)",d:"H",why:"Where precision matters",input:"Brand-specific tools",output:"Auto-tune, position/vel/torque mode",example:"Cut-to-length servo"}
+  ], milestones:[
+    {id:"MS-12.1",text:"Master 1 brand ระดับ teach-others — แบรนด์ที่ใช้ในโรงงานคุณ"},
+    {id:"MS-12.2",text:"ทำ fault-code cheat sheet (top 30) ของแบรนด์นั้น"},
+    {id:"MS-12.3",text:"Cross-train แบรนด์ที่ 2 กัน lock-in"}
+  ]},
+  { id:"L13", num:"L13", title:"Tools & Test Equipment", subtitle:"Multimeter, scope, PQ analyzer, IR camera, sniffer", topics:[
+    {n:1,name:"True-RMS multimeter (CAT III/IV)",d:"E",why:"V, continuity, diode test",input:"DMM, calibration cert",output:"ตรวจ DC bus discharge",example:"Annual calibration"},
+    {n:2,name:"Clamp meter (AC+DC, true RMS)",d:"E",why:"Motor current, harmonic-aware",input:"Clamp meter",output:"Phase imbalance check",example:"Detect single phasing"},
+    {n:3,name:"Insulation tester 500/1000/2500 V",d:"E",why:"Motor + cable IR, PI",input:"1 kV megger",output:"หลัง flooding event",example:"IR > 100 MΩ baseline"},
+    {n:4,name:"Micro-ohmmeter / DLRO",d:"M",why:"Winding balance, contact resistance",input:"Low-ohm tester",output:"หลัง earth fault",example:"3 phase ห่าง <5%"},
+    {n:5,name:"Oscilloscope (4-ch isolated)",d:"M",why:"PWM, encoder, DC bus ripple",input:"Isolated scope",output:"Encoder signal check",example:"จับ IGBT switching waveform"},
+    {n:6,name:"Power quality analyzer (Class A/S)",d:"H",why:"THD, sag, interruption",input:"PQ analyzer",output:"IEEE 519 compliance",example:"Annual PQ audit ที่ PCC"},
+    {n:7,name:"LCR meter",d:"M",why:"Cap ESR/capacitance",input:"LCR meter",output:"Cap health check",example:"DC bus cap ESR trend"},
+    {n:8,name:"Thermal camera (320×240+)",d:"M",why:"Loose terminal, hot component",input:"IR camera",output:"Annual cabinet survey",example:"กฎ ΔT > 20 K"},
+    {n:9,name:"Drive software laptop",d:"E",why:"Parameterize, trace, diagnose",input:"Laptop + tools",output:"ใช้ทุกวัน",example:"Drive Composer + Startdrive + SoMove"},
+    {n:10,name:"Profibus/Profinet diagnostic",d:"H",why:"Comm troubleshooting",input:"Wireshark / PB-MPI tester",output:"Comm loss diag",example:"หา lost telegram ใต้ load"},
+    {n:11,name:"Encoder simulator",d:"M",why:"Bench-test drive without motor",input:"Encoder simulator",output:"Off-line drive test",example:"Drive testing in workshop"},
+    {n:12,name:"Calibrated torque wrench",d:"E",why:"Power terminal torque",input:"Torque wrench (1-60 Nm)",output:"Annual torque check",example:"ตาม Nm spec ของผู้ผลิต"}
+  ], milestones:[
+    {id:"MS-13.1",text:"ตรวจ calibration cert ของ tool ทั้งหมดที่ใช้บน critical drive"},
+    {id:"MS-13.2",text:"สร้าง personal field kit + บันทึกที่จัดเก็บ + content"},
+    {id:"MS-13.3",text:"พิสูจน์ความชำนาญแต่ละ tool (scope, PQ, IR, sniffer)"}
+  ]},
+  { id:"L14", num:"L14", title:"Real Plant Projects", subtitle:"Deliverables ที่แสดงคุณค่ากว่าการดับไฟ", topics:[
+    {n:1,name:"VSD Fault Code Database",d:"M",why:"Searchable list ของ fault + cause + fix",input:"Drive event logs",output:"Plant fault DB",example:"อัพเดททุกครั้งหลังเรียก"},
+    {n:2,name:"Drive PM Checklist (per brand/model)",d:"M",why:"PM card มาตรฐาน",input:"Drive manuals",output:"PM card per drive type",example:"ติดในทุก cabinet"},
+    {n:3,name:"Drive Parameter Backup System",d:"M",why:"ศูนย์กลาง versioned archive",input:"Drive Composer / Starter",output:"Restore SOP",example:"Plant server + daily backup"},
+    {n:4,name:"Repeated Trip Analysis Report",d:"M",why:"Pareto + RCA",input:"3 เดือน trip log",output:"Top-10 corrective actions",example:"Quarterly engineering review"},
+    {n:5,name:"Cabinet Temperature Monitoring",d:"M",why:"PT100 + SCADA + alarm + trend",input:"PT100 sensors, PLC",output:"Live temp dashboard",example:"Summer spike auto-warning"},
+    {n:6,name:"Motor Overload Trend Detection",d:"M",why:"Auto-alert >10% trend ใน 30 วัน",input:"Drive current logs",output:"Auto-email alert",example:"Pump impeller scaling จับเร็ว"},
+    {n:7,name:"Sectional Drive Troubleshooting Guide",d:"H",why:"Section-by-section fault tree",input:"Plant know-how",output:"Section troubleshooting tree",example:"PM3 paper machine guide"},
+    {n:8,name:"Multidrive Cabinet Walkdown SOP",d:"M",why:"Annual checklist + photo + torque + IR",input:"Cabinet drawing",output:"Photo-rich SOP",example:"Annual shutdown"},
+    {n:9,name:"Drive Firmware Standardization",d:"M",why:"Inventory + plan สำหรับ identical drives",input:"Firmware version sweep",output:"Firmware standard table",example:"All ACS880 to v3.16"},
+    {n:10,name:"Spare Parts Criticality Matrix",d:"M",why:"Spare by drive class + stock level",input:"Drive criticality + lead time",output:"Spares matrix",example:"Critical drive = INU on shelf"},
+    {n:11,name:"Power Quality Audit Report",d:"H",why:"THD, sag, mitigation",input:"PQ analyzer",output:"Annual PQ report",example:"For utility compliance"},
+    {n:12,name:"Drive Commissioning Pack template",d:"M",why:"มาตรฐาน commissioning artifact",input:"Wiring + parameters + traces",output:"Commissioning pack template",example:"ใช้ทุก drive ใหม่"},
+    {n:13,name:"Motor Insulation Test Programme",d:"E",why:"Annual IR/PI ทุก VSD-fed motor",input:"1 kV megger",output:"IR/PI trend per motor",example:"จับ insulation aging"}
+  ], milestones:[
+    {id:"MS-14.1",text:"ทำอย่างน้อย 3 project ข้างต้น + present plant management"},
+    {id:"MS-14.2",text:"ทุก project แสดง KPI วัดได้ (MTTR ↓, trips ↓, energy ↓)"},
+    {id:"MS-14.3",text:"สอนคนอื่น 1 คนต่อ project — รอดเมื่อคุณย้าย"}
+  ]},
+  { id:"L15", num:"L15", title:"AI / Smart Maintenance", subtitle:"Anomaly detection, dashboards, edge AI, digital twin", tag:"Future-ready", tagClass:"specialist", topics:[
+    {n:1,name:"Drive event log extraction",d:"M",why:"พื้นฐาน — ต้องเก็บข้อมูลก่อน",input:"Drive software export",output:"CSV/Parquet timestamped",example:"Daily auto-export 50 drives"},
+    {n:2,name:"Fault frequency Pareto",d:"E",why:"80/20 — หา drive เสียงดัง",input:"Fault DB",output:"Top-10 trip Pareto รายเดือน",example:"Monthly engineering report"},
+    {n:3,name:"Anomaly detection on drive signals",d:"M",why:"จับ drift ก่อน trip",input:"Time-series tags",output:"Threshold + statistical alarms",example:"Pump current สูงขึ้น 0.5%/สัปดาห์"},
+    {n:4,name:"Predictive maintenance (RUL)",d:"H",why:"เปลี่ยนก่อน failure",input:"Run-hours + failures history",output:"P(failure) within X days",example:"Cooling fan RUL model"},
+    {n:5,name:"Thermal image classification",d:"H",why:"ขยายเกินกว่า manual scan",input:"IR camera images",output:"Auto hot-spot tagging",example:"Drone IR scan ของ MCC"},
+    {n:6,name:"Local dashboard (Grafana)",d:"M",why:"Visibility = action",input:"InfluxDB/SQL ของ drive tags",output:"Live dashboard",example:"Drive cabinet temp dashboard"},
+    {n:7,name:"Edge AI on drive data",d:"H",why:"Process at source, no cloud",input:"Edge gateway, simple model",output:"Real-time anomaly alarm",example:"Raspberry Pi อ่าน drive Modbus"},
+    {n:8,name:"NLP on operator/maintenance logs",d:"H",why:"กู้ข้อมูลจาก CMMS comments",input:"CMMS export",output:"Cluster recurring issues",example:"Group all 'drive cabinet hot' notes"},
+    {n:9,name:"Vibration spectrum auto-diagnosis",d:"H",why:"ระบุ bearing defect จาก FFT",input:"Vibration data",output:"Auto-classify BPFO/BPFI/BSF",example:"Sectional drive motor pre-warning"},
+    {n:10,name:"Digital twin (drive thermal model)",d:"H",why:"จำลองสิ่งที่วัดยาก",input:"Drive params, ambient, load",output:"Predicted internal temp",example:"IGBT junction temp estimate"}
+  ], milestones:[
+    {id:"MS-15.1",text:"รวม event log ของอย่างน้อย 20 drive เข้า DB ค้นได้"},
+    {id:"MS-15.2",text:"ส่ง 1 dashboard ที่ team ใช้รายสัปดาห์"},
+    {id:"MS-15.3",text:"แสดง 1 anomaly detection ที่ป้องกัน unplanned stop"}
+  ]}
+];
+
+const dLabel = { E:"Easy", M:"Medium", H:"Hard" };
+
+/* ============================================================
+   Render
+   ============================================================ */
+const levelsContainer = document.getElementById("levels");
+
+ROADMAP.forEach((lvl) => {
+    const sec = document.createElement("section");
+    sec.className = "level";
+    sec.id = lvl.id;
+
+    const tagClass = lvl.tagClass || "";
+    const tagHtml = lvl.tag ? `<span class="level-tag ${tagClass}">${lvl.tag}</span>` : "";
+    const numClass = lvl.tagClass || "";
+
+    sec.innerHTML = `
+        <div class="level-header" data-toggle="${lvl.id}">
+            <div class="level-num ${numClass}">${lvl.num}</div>
+            <div class="level-title">
+                <h3>${lvl.title}</h3>
+                <p>${lvl.subtitle}</p>
+            </div>
+            ${tagHtml}
+            <button class="level-toggle" aria-label="Toggle">−</button>
+        </div>
+        <div class="level-body">
+            <div class="topics">
+                ${lvl.topics.map(t => `
+                    <div class="topic ${t.d}" data-level="${lvl.id}" data-topic="${t.n}">
+                        <span class="topic-num">${t.n}</span>
+                        <span class="topic-name">${t.name}</span>
+                        <span class="topic-d">${t.d}</span>
+                    </div>
+                `).join("")}
+            </div>
+            <div class="milestones">
+                <h4>Milestones</h4>
+                ${lvl.milestones.map(m => `
+                    <label class="milestone" data-id="${m.id}">
+                        <input type="checkbox" data-id="${m.id}" />
+                        <span><strong>${m.id}</strong>${m.text}</span>
+                    </label>
+                `).join("")}
+            </div>
+        </div>
+    `;
+    levelsContainer.appendChild(sec);
+});
+
+/* ============================================================
+   Modal
+   ============================================================ */
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modal-title");
+const modalMeta = document.getElementById("modal-meta");
+
+document.querySelectorAll(".topic").forEach(t => {
+    t.addEventListener("click", () => {
+        const lvl = ROADMAP.find(l => l.id === t.dataset.level);
+        const topic = lvl.topics.find(x => x.n === parseInt(t.dataset.topic));
+        modalTitle.textContent = `${lvl.num}.${topic.n} — ${topic.name}`;
+        modalMeta.innerHTML = `
+            <dt>Why it matters</dt><dd>${topic.why}</dd>
+            <dt>Required input</dt><dd>${topic.input}</dd>
+            <dt>Expected output</dt><dd>${topic.output}</dd>
+            <dt>Plant example</dt><dd>${topic.example}</dd>
+            <dt>Difficulty</dt><dd>${dLabel[topic.d]}</dd>
+            <dt>Order</dt><dd>${topic.n} of ${lvl.topics.length} in ${lvl.title}</dd>
+        `;
+        modal.classList.add("open");
+    });
+});
+
+document.getElementById("modal-close").addEventListener("click", () => modal.classList.remove("open"));
+modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") modal.classList.remove("open"); });
+
+/* ============================================================
+   Filter
+   ============================================================ */
+document.querySelectorAll(".roadmap-btn[data-filter]").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelectorAll(".roadmap-btn[data-filter]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        document.querySelectorAll(".topic").forEach(t => {
+            t.style.display = (f === "all" || t.classList.contains(f)) ? "" : "none";
+        });
+    });
+});
+
+/* ============================================================
+   Expand / Collapse
+   ============================================================ */
+document.querySelectorAll(".level-header").forEach(header => {
+    header.addEventListener("click", (e) => {
+        if (e.target.tagName === "INPUT") return;
+        const lvl = header.closest(".level");
+        const btn = header.querySelector(".level-toggle");
+        lvl.classList.toggle("collapsed");
+        btn.textContent = lvl.classList.contains("collapsed") ? "+" : "−";
+    });
+});
+
+document.getElementById("expand-all").addEventListener("click", () => {
+    document.querySelectorAll(".level").forEach(l => l.classList.remove("collapsed"));
+    document.querySelectorAll(".level-toggle").forEach(b => b.textContent = "−");
+});
+document.getElementById("collapse-all").addEventListener("click", () => {
+    document.querySelectorAll(".level").forEach(l => l.classList.add("collapsed"));
+    document.querySelectorAll(".level-toggle").forEach(b => b.textContent = "+");
+});
+document.getElementById("print-btn").addEventListener("click", () => window.print());
+
+/* ============================================================
+   Milestone progress — Firebase + localStorage fallback
+   ============================================================ */
+const STORAGE_KEY = "vsdRoadmapMilestones";
+const allCheckboxes = () => document.querySelectorAll(".milestone input");
+const total = allCheckboxes().length;
+const progressEl = document.getElementById("ms-progress");
+let userId = null;
+let milestones = {};
+
+function applyMilestones() {
+    allCheckboxes().forEach(cb => {
+        const done = !!milestones[cb.dataset.id];
+        cb.checked = done;
+        cb.closest(".milestone").classList.toggle("done", done);
+    });
+    const done = Object.values(milestones).filter(Boolean).length;
+    progressEl.textContent = `Milestones: ${done}/${total}`;
+    progressEl.classList.toggle("dim", done === 0);
+}
+
+function setMilestone(id, value) {
+    if (value) milestones[id] = true;
+    else delete milestones[id];
+
+    if (userId) {
+        firebase.database().ref('roadmapProgress/' + userId).set(milestones);
+    } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
+    }
+}
+
+function loadFromLocal() {
+    milestones = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    applyMilestones();
+}
+
+function loadFromFirebase(uid) {
+    firebase.database().ref('roadmapProgress/' + uid).on('value', snap => {
+        milestones = snap.val() || {};
+        applyMilestones();
+    });
+}
+
+document.addEventListener("change", (e) => {
+    if (e.target.matches(".milestone input")) {
+        setMilestone(e.target.dataset.id, e.target.checked);
+        e.target.closest(".milestone").classList.toggle("done", e.target.checked);
+        // Re-derive count straight from the DOM so it always matches what's checked
+        const liveDone = document.querySelectorAll(".milestone input:checked").length;
+        progressEl.textContent = `Milestones: ${liveDone}/${total}`;
+        progressEl.classList.toggle("dim", liveDone === 0);
+    }
+});
+
+/* ============================================================
+   Auth (matches existing scripts.js pattern)
+   ============================================================ */
+function renderAuthUI(user) {
+    const container = document.getElementById('auth-container');
+    if (!container) return;
+    container.innerHTML = '';
+    if (user) {
+        const name = user.displayName || user.email || 'Anonymous';
+        // textContent keeps a display name from injecting HTML (XSS-safe)
+        const span = document.createElement('span');
+        span.textContent = `เข้าสู่ระบบ: ${name}`;
+        const logoutBtn = document.createElement('button');
+        logoutBtn.id = 'logout-btn';
+        logoutBtn.textContent = 'ออกจากระบบ';
+        logoutBtn.onclick = () => firebase.auth().signOut();
+        container.append(span, logoutBtn);
+    } else {
+        const loginBtn = document.createElement('button');
+        loginBtn.id = 'login-google-btn';
+        loginBtn.textContent = 'เข้าสู่ระบบด้วย Google';
+        loginBtn.onclick = () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider);
+        };
+        container.append(loginBtn);
+    }
+}
+
+firebase.auth().onAuthStateChanged(user => {
+    renderAuthUI(user);
+    if (user) {
+        userId = user.uid;
+        loadFromFirebase(userId);
+    } else {
+        userId = null;
+        loadFromLocal();
+    }
+});
+
+// Initial load (in case auth is delayed)
+loadFromLocal();
+</script>
+
+</body>
+</html>

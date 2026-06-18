@@ -1,0 +1,8 @@
+# Reference materials — kept local only.
+# Contains third-party (ABB) copyrighted documents that must NOT be published.
+Resource/
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+.vscode/
