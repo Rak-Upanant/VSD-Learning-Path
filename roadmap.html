@@ -23,7 +23,7 @@
             <ul>
                 <li>ครอบคลุม 16 ระดับ ตั้งแต่พื้นฐานจนถึงระดับ Specialist</li>
                 <li>มากกว่า 150 หัวข้อ พร้อมตัวอย่างจากโรงงานจริง</li>
-                <li>48 Milestones ที่ต้องลงมือปฏิบัติจริงในสนาม</li>
+                <li>49 Milestones ที่ต้องลงมือปฏิบัติจริงในสนาม</li>
                 <li>ระยะเวลา 18-36 เดือน ขึ้นอยู่กับโอกาสในการสัมผัสงานจริง</li>
             </ul>
             <h4>วิธีใช้งานหน้านี้</h4>
@@ -74,7 +74,7 @@
                 <button class="roadmap-btn" data-filter="H">Hard</button>
             </div>
             <div class="roadmap-toolbar-group">
-                <span class="roadmap-progress-pill dim" id="ms-progress">Milestones: 0/48</span>
+                <span class="roadmap-progress-pill dim" id="ms-progress">Milestones: 0/49</span>
                 <button class="roadmap-btn" id="expand-all">ขยายทั้งหมด</button>
                 <button class="roadmap-btn" id="collapse-all">ย่อทั้งหมด</button>
                 <button class="roadmap-btn" id="print-btn">🖨️ พิมพ์</button>
@@ -110,6 +110,8 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
+<!-- Shared auth button/greeting (does NOT load scripts.js — that would double the progress listener) -->
+<script src="auth.js"></script>
 
 <script>
 /* ============================================================
@@ -135,7 +137,18 @@ const ROADMAP = [
     {id:"MS-0.3",text:"ชี้ชื่อทุกชิ้นใน drive cabinet โดยไม่ดู label"},
     {id:"MS-0.4",text:"คำนวณ fuse rating, cable size, voltage drop จาก motor list"}
   ]},
-  { id:"L1", num:"L1", title:"Drive System Basics", subtitle:"VSD principle, rectifier→DC bus→inverter, control modes", tag:"Theory backbone", topics:[
+  { id:"L1", num:"L1", title:"Drive System Basics", subtitle:"VSD principle, rectifier→DC bus→inverter, control modes", tag:"Theory backbone", lessons:[
+    {f:'01.html', n:'01', t:'What is VSD ?'},
+    {f:'02.html', n:'02', t:'Basic Component'},
+    {f:'03.html', n:'03', t:'Key Parameters'},
+    {f:'04.html', n:'04', t:'Nameplate'},
+    {f:'05.html', n:'05', t:'Case Study'},
+    {f:'11.html', n:'11', t:'Scalar Control'},
+    {f:'12.html', n:'12', t:'Vector Control'},
+    {f:'13.html', n:'13', t:'Direct Torque Control'},
+    {f:'14.html', n:'14', t:'Slip Compensation'},
+    {f:'15.html', n:'15', t:'Open VS Closed-Loop'}
+  ], topics:[
     {n:1,name:"What a VSD does (V/Hz law)",d:"E",why:"พื้นฐาน — เป็นกรอบของทุกหัวข้อต่อไป",input:"Motor + drive nameplate",output:"อธิบายทำไม fan motor ประหยัดที่ 70% speed",example:"เทียบบิลค่าไฟ cooling tower fan VSD vs DOL"},
     {n:2,name:"Block diagram: rectifier→DC bus→inverter",d:"E",why:"Mental model สำหรับทุก fault",input:"Drive cabinet, manual",output:"ชี้และเรียกชื่อแต่ละ stage",example:"Pre-charge fault — หา pre-charge resistor"},
     {n:3,name:"Rectifier types: 6/12/18-pulse, AFE",d:"M",why:"กำหนด harmonic + ความสามารถ regen",input:"SLD, drive type code",output:"ระบุ rectifier type จาก cabinet",example:"ACS880 + AFE vs ACS800 6-pulse"},
@@ -154,7 +167,18 @@ const ROADMAP = [
     {id:"MS-1.2",text:"จับภาพ scope: PWM output, motor current sinusoid, DC bus ripple"},
     {id:"MS-1.3",text:"เทียบ scalar vs vector บน motor เดียวกัน บันทึก speed accuracy ที่ 5 Hz"}
   ]},
-  { id:"L2", num:"L2", title:"Motor & Load Knowledge", subtitle:"Induction, synchronous, servo, load profiles", topics:[
+  { id:"L2", num:"L2", title:"Motor & Load Knowledge", subtitle:"Induction, synchronous, servo, load profiles", lessons:[
+    {f:'06.html', n:'06', t:'Construction and Operation'},
+    {f:'07.html', n:'07', t:'Torque-Speed'},
+    {f:'08.html', n:'08', t:'Heating and Cooling'},
+    {f:'09.html', n:'09', t:'V&f on Motor Performance'},
+    {f:'10.html', n:'10', t:'Selecting the Motor'},
+    {f:'21.html', n:'21', t:'Pump'},
+    {f:'22.html', n:'22', t:'Fan'},
+    {f:'23.html', n:'23', t:'Conveyor'},
+    {f:'24.html', n:'24', t:'Energy Saving'},
+    {f:'25.html', n:'25', t:'VSD Application'}
+  ], topics:[
     {n:1,name:"Induction motor (squirrel cage)",d:"E",why:"90% ของ load — เริ่มที่นี่",input:"Cutaway drawing, real motor",output:"ระบุ stator, rotor, bearing, fan",example:"30 kW pump motor — หา data plate"},
     {n:2,name:"Slip, sync speed, rotor losses",d:"E",why:"ทำไม 1480 rpm ไม่ใช่ 1500",input:"Nameplate, formula",output:"คำนวณ slip ที่ full load",example:"4-pole ที่ 49 Hz → rpm จริง"},
     {n:3,name:"Torque-speed curve (DOL vs VFD)",d:"M",why:"Drive ทำให้ curve แบน",input:"Curve sheet",output:"ระบุ breakdown, pull-up, FLT",example:"ทำไม VFD-fed crusher restart มี load ไม่ได้"},
@@ -174,7 +198,13 @@ const ROADMAP = [
     {id:"MS-2.2",text:"ระบุในโรงงาน: 1 fan, 1 conveyor, 1 winder load — ร่าง torque vs speed"},
     {id:"MS-2.3",text:"ตรวจ 1 VSD-fed motor หาร่องรอย bearing fluting"}
   ]},
-  { id:"L3", num:"L3", title:"Single Drive System", subtitle:"Wiring, parameters, protection, fault codes, PM", tag:"Entry role", tagClass:"specialist", topics:[
+  { id:"L3", num:"L3", title:"Single Drive System", subtitle:"Wiring, parameters, protection, fault codes, PM", tag:"Entry role", tagClass:"specialist", lessons:[
+    {f:'16.html', n:'16', t:'VSD User Interface'},
+    {f:'17.html', n:'17', t:'Set V/I/f'},
+    {f:'18.html', n:'18', t:'Set Accel & Decel'},
+    {f:'19.html', n:'19', t:'Protection Parameters'},
+    {f:'20.html', n:'20', t:'Hands-on'}
+  ], topics:[
     {n:1,name:"Apps (pump, fan, mixer, conveyor)",d:"E",why:"Drive ส่วนใหญ่ในโรงงานคือแบบนี้",input:"Equipment list",output:"แบ่งประเภท drive ในโรงงาน",example:"80% MCC drives ใน cement plant"},
     {n:2,name:"Power wiring: fuse, reactor, drive, motor cable",d:"M",why:"แต่ละชิ้นมีเหตุผล — ต้องรู้",input:"Drive schematic",output:"อธิบายเหตุผลของแต่ละชิ้น",example:"ทำไม ABB แนะนำ 2% reactor บน 6-pulse"},
     {n:3,name:"Control wiring: 24V, run/stop, ref, reset",d:"E",why:"ที่นี่คือที่ field troubles อยู่",input:"Wiring diagram",output:"ตามรอย start command DCS→drive DI",example:"Drive ไม่ start → check DI1 voltage"},
@@ -278,7 +308,11 @@ const ROADMAP = [
     {id:"MS-8.2",text:"ตรวจ 5 motor-cable gland — re-terminate ที่ shield ไม่ครบ 360°"},
     {id:"MS-8.3",text:"บันทึก sag event จาก plant power monitor + correlate กับ drive trip log"}
   ]},
-  { id:"L9", num:"L9", title:"Troubleshooting Skill Path", subtitle:"Fault codes, first-fault, RCA, scope, IGBT diagnosis", tag:"Core competency", tagClass:"core", topics:[
+  { id:"L9", num:"L9", title:"Troubleshooting Skill Path", subtitle:"Fault codes, first-fault, RCA, scope, IGBT diagnosis", tag:"Core competency", tagClass:"core", lessons:[
+    {f:'26.html', n:'26', t:'Faults & Alarms'},
+    {f:'28.html', n:'28', t:'Check Input & Output V&I'},
+    {f:'29.html', n:'29', t:'Problems Related to VSD'}
+  ], topics:[
     {n:1,name:"Fault code interpretation",d:"M",why:"เริ่มที่ fault code เสมอ ไม่ใช่ความเห็น",input:"Drive HMI fault code + manual",output:"แปล code → physical cause → action",example:"F0007 Motor stall — เช็ค mechanical ก่อน"},
     {n:2,name:"Alarm history & first-fault logic",d:"H",why:"Trip ตัวแรกตัดสินทุกอย่าง",input:"Drive event log, time-sync",output:"ระบุ first faulter ใน cascade",example:"6 drive trip: INU 3 OC, ที่เหลือ UV"},
     {n:3,name:"Parameter comparison vs golden backup",d:"M",why:"30% ของ ghost issues = มีคนแก้ param",input:"Backup file, compare tool",output:"Diff vs commissioning baseline",example:"Drive ช้า — torque limit ถูกแก้ 200%→100%"},
@@ -295,7 +329,9 @@ const ROADMAP = [
     {id:"MS-9.2",text:"นำ RCA (5-Why) ของ trip ที่ซ้ำ + present plant engineering"},
     {id:"MS-9.3",text:"สอน junior เรื่อง First-10-Minutes card + ตรวจสอบโดยสังเกต"}
   ]},
-  { id:"L10", num:"L10", title:"Preventive & Predictive Maintenance", subtitle:"Cooling fans, capacitor health, thermal, vibration, spares", topics:[
+  { id:"L10", num:"L10", title:"Preventive & Predictive Maintenance", subtitle:"Cooling fans, capacitor health, thermal, vibration, spares", lessons:[
+    {f:'30.html', n:'30', t:'Maintenance Procedures'}
+  ], topics:[
     {n:1,name:"Cooling fan inspection & replacement",d:"E",why:"พัดลมเสีย = drive thermal trip ในหน้าร้อน",input:"Fan run-hour log",output:"เปลี่ยนที่ 80% ของอายุ",example:"ACS800 main fan @ 35,000 ชม."},
     {n:2,name:"DC capacitor health (ESR)",d:"M",why:"Cap แก่ = OV/ripple trip, ระเบิดได้",input:"LCR meter, drive cap-test mode",output:"Trend ESR รายปี",example:"Drive อะไหล่ idle 3 ปี → reform ก่อน"},
     {n:3,name:"Thermal inspection (IR camera)",d:"M",why:"หา terminal หลวม, ส่วนกำลังตาย",input:"Thermal camera",output:"ΔT > 20 K vs reference = act",example:"พบ fuse holder ร้อนก่อนไฟไหม้"},
@@ -344,7 +380,9 @@ const ROADMAP = [
     {id:"MS-12.2",text:"ทำ fault-code cheat sheet (top 30) ของแบรนด์นั้น"},
     {id:"MS-12.3",text:"Cross-train แบรนด์ที่ 2 กัน lock-in"}
   ]},
-  { id:"L13", num:"L13", title:"Tools & Test Equipment", subtitle:"Multimeter, scope, PQ analyzer, IR camera, sniffer", topics:[
+  { id:"L13", num:"L13", title:"Tools & Test Equipment", subtitle:"Multimeter, scope, PQ analyzer, IR camera, sniffer", lessons:[
+    {f:'27.html', n:'27', t:'Using a Multimeter'}
+  ], topics:[
     {n:1,name:"True-RMS multimeter (CAT III/IV)",d:"E",why:"V, continuity, diode test",input:"DMM, calibration cert",output:"ตรวจ DC bus discharge",example:"Annual calibration"},
     {n:2,name:"Clamp meter (AC+DC, true RMS)",d:"E",why:"Motor current, harmonic-aware",input:"Clamp meter",output:"Phase imbalance check",example:"Detect single phasing"},
     {n:3,name:"Insulation tester 500/1000/2500 V",d:"E",why:"Motor + cable IR, PI",input:"1 kV megger",output:"หลัง flooding event",example:"IR > 100 MΩ baseline"},
@@ -426,6 +464,13 @@ ROADMAP.forEach((lvl) => {
             <button class="level-toggle" aria-label="Toggle">−</button>
         </div>
         <div class="level-body">
+            ${lvl.lessons ? `
+            <div class="roadmap-related-lessons">
+                <span class="roadmap-related-label">📘 บทเรียนที่เกี่ยวข้อง</span>
+                ${lvl.lessons.map(ls => `
+                    <a class="roadmap-lesson-chip" href="${ls.f}">${ls.n} · ${ls.t}</a>
+                `).join("")}
+            </div>` : ""}
             <div class="topics">
                 ${lvl.topics.map(t => `
                     <div class="topic ${t.d}" data-level="${lvl.id}" data-topic="${t.n}">
@@ -515,6 +560,31 @@ document.getElementById("collapse-all").addEventListener("click", () => {
 document.getElementById("print-btn").addEventListener("click", () => window.print());
 
 /* ============================================================
+   Hash scroll + expand
+   When the page is opened with a level id in the URL (e.g. roadmap.html#L1),
+   make sure that level is expanded and scrolled into view. This is how the
+   "part of the Roadmap" badge on a lesson page lands the user on the right level.
+   ============================================================ */
+function openLevelFromHash() {
+    const hash = location.hash.slice(1); // remove the leading "#"
+    if (!hash) return;
+    const level = document.getElementById(hash);
+    if (!level || !level.classList.contains("level")) return;
+
+    // Expand it (the toggle button text needs to match).
+    level.classList.remove("collapsed");
+    const toggle = level.querySelector(".level-toggle");
+    if (toggle) toggle.textContent = "−";
+
+    // Scroll it into view.
+    level.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// Run once on load, and again if the hash changes while already on the page.
+openLevelFromHash();
+window.addEventListener("hashchange", openLevelFromHash);
+
+/* ============================================================
    Milestone progress — Firebase + localStorage fallback
    ============================================================ */
 const STORAGE_KEY = "vsdRoadmapMilestones";
@@ -570,36 +640,11 @@ document.addEventListener("change", (e) => {
 });
 
 /* ============================================================
-   Auth (matches existing scripts.js pattern)
+   Milestone progress loading.
+   The auth button/greeting (renderAuthUI) now lives in the shared auth.js file,
+   loaded before this script. This listener only handles milestone progress.
    ============================================================ */
-function renderAuthUI(user) {
-    const container = document.getElementById('auth-container');
-    if (!container) return;
-    container.innerHTML = '';
-    if (user) {
-        const name = user.displayName || user.email || 'Anonymous';
-        // textContent keeps a display name from injecting HTML (XSS-safe)
-        const span = document.createElement('span');
-        span.textContent = `เข้าสู่ระบบ: ${name}`;
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'logout-btn';
-        logoutBtn.textContent = 'ออกจากระบบ';
-        logoutBtn.onclick = () => firebase.auth().signOut();
-        container.append(span, logoutBtn);
-    } else {
-        const loginBtn = document.createElement('button');
-        loginBtn.id = 'login-google-btn';
-        loginBtn.textContent = 'เข้าสู่ระบบด้วย Google';
-        loginBtn.onclick = () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider);
-        };
-        container.append(loginBtn);
-    }
-}
-
 firebase.auth().onAuthStateChanged(user => {
-    renderAuthUI(user);
     if (user) {
         userId = user.uid;
         loadFromFirebase(userId);

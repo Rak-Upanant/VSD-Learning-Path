@@ -426,6 +426,8 @@ mindmap
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
+<!-- Shared auth button/greeting (does NOT load scripts.js — that would double the progress listener) -->
+<script src="auth.js"></script>
 
 <script>
 mermaid.initialize({
@@ -465,33 +467,8 @@ document.querySelectorAll('.mindmap-tab').forEach(tab => {
 // Render initial tab
 renderActivePane();
 
-// Auth UI (reuse pattern)
-function renderAuthUI(user) {
-    const container = document.getElementById('auth-container');
-    if (!container) return;
-    container.innerHTML = '';
-    if (user) {
-        const name = user.displayName || user.email || 'Anonymous';
-        // textContent keeps a display name from injecting HTML (XSS-safe)
-        const span = document.createElement('span');
-        span.textContent = 'เข้าสู่ระบบ: ' + name;
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'logout-btn';
-        logoutBtn.textContent = 'ออกจากระบบ';
-        logoutBtn.onclick = () => firebase.auth().signOut();
-        container.append(span, logoutBtn);
-    } else {
-        const loginBtn = document.createElement('button');
-        loginBtn.id = 'login-google-btn';
-        loginBtn.textContent = 'เข้าสู่ระบบด้วย Google';
-        loginBtn.onclick = () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider);
-        };
-        container.append(loginBtn);
-    }
-}
-firebase.auth().onAuthStateChanged(renderAuthUI);
+// The auth button/greeting (renderAuthUI) now lives in the shared auth.js file,
+// loaded before this script. Nothing auth-related needed here anymore.
 </script>
 
 </body>

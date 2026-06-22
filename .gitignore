@@ -6,3 +6,6 @@ Resource/
 Thumbs.db
 .DS_Store
 .vscode/
+
+# Local agent/editor tooling (preview config, local settings) — not for publishing
+.claude/

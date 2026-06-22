@@ -1,49 +1,78 @@
 // --- DATABASE: รายชื่อบทเรียนทั้งหมด ---
+// Each lesson also has a `level` field: which Specialist Roadmap level it maps to.
+// This lets a lesson page show a "part of the roadmap" badge. resource-01 has no level.
 const lessons = [
-    { id: 'lesson-01', file: '01.html', title: 'What is VSD ?', module: 'Module 01: Introduction' },
-    { id: 'lesson-02', file: '02.html', title: 'Basic Component', module: 'Module 01: Introduction' },
-    { id: 'lesson-03', file: '03.html', title: 'Key Parameters', module: 'Module 01: Introduction' },
-    { id: 'lesson-04', file: '04.html', title: 'Nameplate', module: 'Module 01: Introduction' },
-    { id: 'lesson-05', file: '05.html', title: 'Case Study', module: 'Module 01: Introduction' },
-    { id: 'lesson-06', file: '06.html', title: 'Construction and Operation', module: 'Module 02: AC Motor Fundamentals' },
-    { id: 'lesson-07', file: '07.html', title: 'Torque-Speed', module: 'Module 02: AC Motor Fundamentals' },
-    { id: 'lesson-08', file: '08.html', title: 'Heating and Cooling', module: 'Module 02: AC Motor Fundamentals' },
-    { id: 'lesson-09', file: '09.html', title: 'V&f on Motor Performance', module: 'Module 02: AC Motor Fundamentals' },
-    { id: 'lesson-10', file: '10.html', title: 'Selecting the Motor', module: 'Module 02: AC Motor Fundamentals' },
-    { id: 'lesson-11', file: '11.html', title: 'Scalar Control', module: 'Module 03: Control & Operation' },
-    { id: 'lesson-12', file: '12.html', title: 'Vector Control', module: 'Module 03: Control & Operation' },
-    { id: 'lesson-13', file: '13.html', title: 'Direct Torque Control', module: 'Module 03: Control & Operation' },
-    { id: 'lesson-14', file: '14.html', title: 'Slip Compensation', module: 'Module 03: Control & Operation' },
-    { id: 'lesson-15', file: '15.html', title: 'Open VS Closed-Loop', module: 'Module 03: Control & Operation' },
-    { id: 'lesson-16', file: '16.html', title: 'VSD User Interface', module: 'Module 04: Parameter & Config' },
-    { id: 'lesson-17', file: '17.html', title: 'Set V/I/f', module: 'Module 04: Parameter & Config' },
-    { id: 'lesson-18', file: '18.html', title: 'Set Accel & Decel', module: 'Module 04: Parameter & Config' },
-    { id: 'lesson-19', file: '19.html', title: 'Protection Parameters', module: 'Module 04: Parameter & Config' },
-    { id: 'lesson-20', file: '20.html', title: 'Hands-on', module: 'Module 04: Parameter & Config' },
-    { id: 'lesson-21', file: '21.html', title: 'Pump', module: 'Module 05: Application & Benefits' },
-    { id: 'lesson-22', file: '22.html', title: 'Fan', module: 'Module 05: Application & Benefits' },
-    { id: 'lesson-23', file: '23.html', title: 'Conveyor', module: 'Module 05: Application & Benefits' },
-    { id: 'lesson-24', file: '24.html', title: 'Energy Saving', module: 'Module 05: Application & Benefits' },
-    { id: 'lesson-25', file: '25.html', title: 'VSD Application', module: 'Module 05: Application & Benefits' },
-    { id: 'lesson-26', file: '26.html', title: 'Faults & Alarms', module: 'Module 06: Troubleshooting & Maintenance' },
-    { id: 'lesson-27', file: '27.html', title: 'Using a Multimeter', module: 'Module 06: Troubleshooting & Maintenance' },
-    { id: 'lesson-28', file: '28.html', title: 'Check Input & Output V&I', module: 'Module 06: Troubleshooting & Maintenance' },
-    { id: 'lesson-29', file: '29.html', title: 'Problems Related to VSD', module: 'Module 06: Troubleshooting & Maintenance' },
-    { id: 'lesson-30', file: '30.html', title: 'Maintenance Procedures', module: 'Module 06: Troubleshooting & Maintenance' },
+    { id: 'lesson-01', file: '01.html', title: 'What is VSD ?', module: 'Module 01: Introduction', level: 'L1' },
+    { id: 'lesson-02', file: '02.html', title: 'Basic Component', module: 'Module 01: Introduction', level: 'L1' },
+    { id: 'lesson-03', file: '03.html', title: 'Key Parameters', module: 'Module 01: Introduction', level: 'L1' },
+    { id: 'lesson-04', file: '04.html', title: 'Nameplate', module: 'Module 01: Introduction', level: 'L1' },
+    { id: 'lesson-05', file: '05.html', title: 'Case Study', module: 'Module 01: Introduction', level: 'L1' },
+    { id: 'lesson-06', file: '06.html', title: 'Construction and Operation', module: 'Module 02: AC Motor Fundamentals', level: 'L2' },
+    { id: 'lesson-07', file: '07.html', title: 'Torque-Speed', module: 'Module 02: AC Motor Fundamentals', level: 'L2' },
+    { id: 'lesson-08', file: '08.html', title: 'Heating and Cooling', module: 'Module 02: AC Motor Fundamentals', level: 'L2' },
+    { id: 'lesson-09', file: '09.html', title: 'V&f on Motor Performance', module: 'Module 02: AC Motor Fundamentals', level: 'L2' },
+    { id: 'lesson-10', file: '10.html', title: 'Selecting the Motor', module: 'Module 02: AC Motor Fundamentals', level: 'L2' },
+    { id: 'lesson-11', file: '11.html', title: 'Scalar Control', module: 'Module 03: Control & Operation', level: 'L1' },
+    { id: 'lesson-12', file: '12.html', title: 'Vector Control', module: 'Module 03: Control & Operation', level: 'L1' },
+    { id: 'lesson-13', file: '13.html', title: 'Direct Torque Control', module: 'Module 03: Control & Operation', level: 'L1' },
+    { id: 'lesson-14', file: '14.html', title: 'Slip Compensation', module: 'Module 03: Control & Operation', level: 'L1' },
+    { id: 'lesson-15', file: '15.html', title: 'Open VS Closed-Loop', module: 'Module 03: Control & Operation', level: 'L1' },
+    { id: 'lesson-16', file: '16.html', title: 'VSD User Interface', module: 'Module 04: Parameter & Config', level: 'L3' },
+    { id: 'lesson-17', file: '17.html', title: 'Set V/I/f', module: 'Module 04: Parameter & Config', level: 'L3' },
+    { id: 'lesson-18', file: '18.html', title: 'Set Accel & Decel', module: 'Module 04: Parameter & Config', level: 'L3' },
+    { id: 'lesson-19', file: '19.html', title: 'Protection Parameters', module: 'Module 04: Parameter & Config', level: 'L3' },
+    { id: 'lesson-20', file: '20.html', title: 'Hands-on', module: 'Module 04: Parameter & Config', level: 'L3' },
+    { id: 'lesson-21', file: '21.html', title: 'Pump', module: 'Module 05: Application & Benefits', level: 'L2' },
+    { id: 'lesson-22', file: '22.html', title: 'Fan', module: 'Module 05: Application & Benefits', level: 'L2' },
+    { id: 'lesson-23', file: '23.html', title: 'Conveyor', module: 'Module 05: Application & Benefits', level: 'L2' },
+    { id: 'lesson-24', file: '24.html', title: 'Energy Saving', module: 'Module 05: Application & Benefits', level: 'L2' },
+    { id: 'lesson-25', file: '25.html', title: 'VSD Application', module: 'Module 05: Application & Benefits', level: 'L2' },
+    { id: 'lesson-26', file: '26.html', title: 'Faults & Alarms', module: 'Module 06: Troubleshooting & Maintenance', level: 'L9' },
+    { id: 'lesson-27', file: '27.html', title: 'Using a Multimeter', module: 'Module 06: Troubleshooting & Maintenance', level: 'L13' },
+    { id: 'lesson-28', file: '28.html', title: 'Check Input & Output V&I', module: 'Module 06: Troubleshooting & Maintenance', level: 'L9' },
+    { id: 'lesson-29', file: '29.html', title: 'Problems Related to VSD', module: 'Module 06: Troubleshooting & Maintenance', level: 'L9' },
+    { id: 'lesson-30', file: '30.html', title: 'Maintenance Procedures', module: 'Module 06: Troubleshooting & Maintenance', level: 'L10' },
     { id: 'resource-01', file: '#', title: 'Reference Docs & Links', module: 'Module 07: Resource Center' }
 ];
+
+// Roadmap level titles, so a lesson page can show its level name
+// WITHOUT loading the full roadmap data (roadmap.html keeps its own copy).
+const ROADMAP_LEVELS = {
+    L1: 'Drive System Basics',
+    L2: 'Motor & Load Knowledge',
+    L3: 'Single Drive System',
+    L9: 'Troubleshooting',
+    L10: 'Preventive & Predictive Maintenance',
+    L13: 'Tools & Test Equipment'
+};
 
 // --- CONFIGURATION ---
 const CONFIG = {
     homePage: 'index.html',
+    // Each module card on the home page is built from this data.
+    //   icon  = the emoji shown in the card header
+    //   level = which roadmap level the card's "🗺️ Lx" tag links to (omit = no tag)
+    // Module 07 (Resource Center) is special: it has external links (resources),
+    // no roadmap tag, and no progress bar.
     modules: [
-        { id: 'module-01', name: 'Module 01: Introduction' },
-        { id: 'module-02', name: 'Module 02: AC Motor Fundamentals' },
-        { id: 'module-03', name: 'Module 03: Control & Operation' },
-        { id: 'module-04', name: 'Module 04: Parameter & Config' },
-        { id: 'module-05', name: 'Module 05: Application & Benefits' },
-        { id: 'module-06', name: 'Module 06: Troubleshooting & Maintenance' },
-        { id: 'module-07', name: 'Module 07: Resource Center' }
+        { id: 'module-01', name: 'Module 01: Introduction',                    icon: '💡', level: 'L1' },
+        { id: 'module-02', name: 'Module 02: AC Motor Fundamentals',           icon: '⚙️', level: 'L2' },
+        { id: 'module-03', name: 'Module 03: Control & Operation',             icon: '🕹️', level: 'L1' },
+        { id: 'module-04', name: 'Module 04: Parameter & Config',              icon: '🖥️', level: 'L3' },
+        { id: 'module-05', name: 'Module 05: Application & Benefits',          icon: '🏭', level: 'L2' },
+        { id: 'module-06', name: 'Module 06: Troubleshooting & Maintenance',   icon: '🔧', level: 'L9' },
+        {
+            id: 'module-07',
+            name: 'Module 07: Resource Center',
+            icon: '📚',
+            // External resources (all point to the same shared Google Drive folder).
+            resources: [
+                { title: 'VSD Documentation', url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
+                { title: 'Technical Papers',  url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
+                { title: 'Video Library',     url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
+                { title: 'Tools & Downloads', url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' }
+            ]
+        }
     ]
 };
 
@@ -179,9 +208,82 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeHomePage() {
+    // Build the module cards from data FIRST, so the progress functions below
+    // (and the ProgressTracker's auth listener) have real DOM to update.
+    renderModuleCards();
     updateHomePageLinks();
     updateProgressBar();
     updateAllModuleProgress();
+}
+
+// Build all module cards into the .module-grid container from CONFIG.modules + lessons[].
+// This reproduces the exact markup that used to be hand-written in index.html,
+// so the existing CSS styles every card identically. There is now ONE source of truth.
+//
+// Note on safety: every value here comes from our own static CONFIG/lessons data
+// (no user input), so template strings are safe — this matches the roadmap's
+// existing rendering style. The only "dynamic" text is lesson titles we wrote.
+function renderModuleCards() {
+    const grid = document.querySelector('.module-grid');
+    if (!grid) return;
+
+    // Helper: turn a lesson id like "lesson-07" into the number "07".
+    const lessonNumber = (id) => id.replace('lesson-', '');
+
+    // Build the HTML for one module card.
+    const cardHTML = (module) => {
+        const isResourceCenter = module.id === 'module-07';
+
+        // --- Header: icon + title + optional roadmap tag ---
+        // The roadmap tag (e.g. "🗺️ L1") links to roadmap.html#L1. Resource Center has none.
+        const roadmapTag = (!isResourceCenter && module.level)
+            ? `<a class="module-roadmap-tag" href="roadmap.html#${module.level}">🗺️ ${module.level}</a>`
+            : '';
+
+        const header = `
+                    <div class="module-header">
+                        <span class="module-icon">${module.icon}</span>
+                        <h3>${module.name}</h3>
+                        ${roadmapTag}
+                    </div>`;
+
+        // --- Lesson list ---
+        let listItems;
+        if (isResourceCenter) {
+            // Resource Center: external links that open in a new tab.
+            listItems = module.resources.map(r =>
+                `<li><a href="${r.url}" target="_blank">${r.title}</a></li>`
+            ).join('\n                        ');
+        } else {
+            // Normal module: one link per lesson belonging to this module.
+            const moduleLessons = lessons.filter(l => l.module === module.name);
+            listItems = moduleLessons.map(l => {
+                const num = lessonNumber(l.id);
+                return `<li><a href="${l.file}">Lesson ${num}: ${l.title}</a></li>`;
+            }).join('\n                        ');
+        }
+        const lessonList = `
+                    <ul class="lesson-list">
+                        ${listItems}
+                    </ul>`;
+
+        // --- Progress bar (hidden for the Resource Center) ---
+        const progressStyle = isResourceCenter ? ' style="display:none;"' : '';
+        const progress = `
+                    <div class="module-progress"${progressStyle}>
+                        <div class="module-progress-bar">
+                            <div class="module-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="module-progress-text">0% (0/0)</div>
+                    </div>`;
+
+        return `
+                <div id="${module.id}" class="module-card">${header}${lessonList}${progress}
+                </div>`;
+    };
+
+    // Join all cards and drop them into the grid in one write.
+    grid.innerHTML = CONFIG.modules.map(cardHTML).join('\n');
 }
 
 function updateHomePageLinks() {
@@ -230,7 +332,38 @@ function updateAllModuleProgress() {
 function initializeLessonPage(container) {
     const existingFooter = container.querySelector('.lesson-footer');
     if (existingFooter) existingFooter.remove();
+    setupRoadmapBadge(container);
     setupLessonFooter(container);
+}
+
+// Show a small "part of the Roadmap" badge right under the lesson title.
+// It links to the matching roadmap level (e.g. roadmap.html#L1).
+function setupRoadmapBadge(container) {
+    // Remove an old badge first so re-running this (e.g. after login) doesn't duplicate it.
+    const existingBadge = container.querySelector('.lesson-roadmap-badge');
+    if (existingBadge) existingBadge.remove();
+
+    const currentIndex = lessonNavigator.getCurrentLessonIndex();
+    if (currentIndex === -1) return;
+    const currentLesson = lessons[currentIndex];
+
+    // Skip lessons that have no roadmap level (e.g. the Resource Center).
+    if (!currentLesson.level) return;
+    const levelTitle = ROADMAP_LEVELS[currentLesson.level];
+    if (!levelTitle) return;
+
+    // Find the first <h2> (the lesson heading) so we can insert the badge after it.
+    const heading = container.querySelector('h2');
+    if (!heading) return;
+
+    // Build the badge with createElement + textContent (XSS-safe).
+    const badge = document.createElement('a');
+    badge.className = 'lesson-roadmap-badge';
+    badge.href = `roadmap.html#${currentLesson.level}`;
+    badge.textContent = `🗺️ ส่วนหนึ่งของ Roadmap · ${currentLesson.level} — ${levelTitle}`;
+
+    // Place the badge right after the lesson title.
+    heading.insertAdjacentElement('afterend', badge);
 }
 
 function setupLessonFooter(container) {
@@ -314,34 +447,6 @@ function showNotification(message) {
     }, 3000);
 }
 
-function renderAuthUI(user) {
-    const container = document.getElementById('auth-container');
-    if (!container) return;
-    // Clear out whatever was there before
-    container.innerHTML = '';
-    if (user) {
-        const name = user.displayName || user.email || 'Anonymous';
-        // Build the greeting with textContent so a display name can never inject HTML (XSS-safe)
-        const span = document.createElement('span');
-        span.textContent = `เข้าสู่ระบบ: ${name}`;
-        const logoutBtn = document.createElement('button');
-        logoutBtn.id = 'logout-btn';
-        logoutBtn.textContent = 'ออกจากระบบ';
-        logoutBtn.onclick = () => firebase.auth().signOut();
-        container.append(span, logoutBtn);
-    } else {
-        const loginBtn = document.createElement('button');
-        loginBtn.id = 'login-google-btn';
-        loginBtn.textContent = 'เข้าสู่ระบบด้วย Google';
-        loginBtn.onclick = () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider);
-        };
-        container.append(loginBtn);
-    }
-}
-
-// Only render the auth button/greeting here.
-// Progress loading is handled by the ProgressTracker's own auth listener (above),
-// so we must NOT call loadProgress() again or it would attach a second listener.
-firebase.auth().onAuthStateChanged(renderAuthUI);
+// NOTE: the auth button/greeting (renderAuthUI) now lives in the shared auth.js file,
+// which each page loads before scripts.js. Progress loading is still handled by the
+// ProgressTracker's own auth listener (above) — that stays here.
