@@ -65,8 +65,10 @@ const CONFIG = {
             id: 'module-07',
             name: 'Module 07: Resource Center',
             icon: '📚',
-            // External resources (all point to the same shared Google Drive folder).
+            // Resources: the internal Mindmap page plus external Google Drive docs.
+            // `internal: true` items open in the same tab (no target="_blank").
             resources: [
+                { title: '🧠 Mindmap — แผนผัง 16 ระดับ', url: 'mindmap.html', internal: true },
                 { title: 'VSD Documentation', url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
                 { title: 'Technical Papers',  url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
                 { title: 'Video Library',     url: 'https://drive.google.com/drive/folders/1ZYRl4NX98prXOLIfT81KO_RmUFIP7uAT?usp=sharing' },
@@ -252,7 +254,7 @@ function renderModuleCards() {
         if (isResourceCenter) {
             // Resource Center: external links that open in a new tab.
             listItems = module.resources.map(r =>
-                `<li><a href="${r.url}" target="_blank">${r.title}</a></li>`
+                `<li><a href="${r.url}"${r.internal ? '' : ' target="_blank"'}>${r.title}</a></li>`
             ).join('\n                        ');
         } else {
             // Normal module: one link per lesson belonging to this module.
