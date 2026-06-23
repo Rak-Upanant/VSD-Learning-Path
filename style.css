@@ -234,6 +234,9 @@ strong { color: var(--primary-color); font-weight: 600; }
 /* === RESOURCE CENTER MODULE STYLING === */
 #module-07 .module-header { background-color: var(--success-color); }
 #module-07 .lesson-list a::before { content: '📂'; }
+/* Internal links (e.g. the Mindmap) already carry their own icon (🧠) in the
+   text, so suppress the folder prefix to avoid showing two icons. */
+#module-07 .lesson-list a.resource-internal::before { content: none; }
 
 /* === LESSON PAGES SPECIFIC === */
 .example-block, .hypothetical-scenario, .case-study {

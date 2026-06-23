@@ -238,17 +238,11 @@ function renderModuleCards() {
     const cardHTML = (module) => {
         const isResourceCenter = module.id === 'module-07';
 
-        // --- Header: icon + title + optional roadmap tag ---
-        // The roadmap tag (e.g. "🗺️ L1") links to roadmap.html#L1. Resource Center has none.
-        const roadmapTag = (!isResourceCenter && module.level)
-            ? `<a class="module-roadmap-tag" href="roadmap.html#${module.level}">🗺️ ${module.level}</a>`
-            : '';
-
+        // --- Header: icon + title ---
         const header = `
                     <div class="module-header">
                         <span class="module-icon">${module.icon}</span>
                         <h3>${module.name}</h3>
-                        ${roadmapTag}
                     </div>`;
 
         // --- Lesson list ---
@@ -256,7 +250,7 @@ function renderModuleCards() {
         if (isResourceCenter) {
             // Resource Center: external links that open in a new tab.
             listItems = module.resources.map(r =>
-                `<li><a href="${r.url}"${r.internal ? '' : ' target="_blank"'}>${r.title}</a></li>`
+                `<li><a${r.internal ? ' class="resource-internal"' : ''} href="${r.url}"${r.internal ? '' : ' target="_blank"'}>${r.title}</a></li>`
             ).join('\n                        ');
         } else {
             // Normal module: one link per lesson belonging to this module.
@@ -285,8 +279,9 @@ function renderModuleCards() {
         // Links to the reusable quiz page, e.g. quiz.html?m=module-01.
         // The "<span class="module-quiz-score">" is filled in later with the
         // saved % once the logged-in user's scores load (updateQuizScores).
+        // Hidden until the module is 100% complete (revealed by updateAllModuleProgress).
         const quizLink = isResourceCenter ? '' : `
-                    <a class="module-quiz-link" href="quiz.html?m=${module.id}">📝 ทำแบบทดสอบ<span class="module-quiz-score"></span></a>`;
+                    <a class="module-quiz-link" href="quiz.html?m=${module.id}" style="display:none;">📝 ทำแบบทดสอบ<span class="module-quiz-score"></span></a>`;
 
         return `
                 <div id="${module.id}" class="module-card">${header}${lessonList}${progress}${quizLink}
@@ -324,6 +319,11 @@ function updateAllModuleProgress() {
         const stats = progressTracker.getModuleProgress(module.name);
         const moduleCard = document.getElementById(module.id);
         if (!moduleCard) return;
+        // Quiz button appears only once the whole module is complete (100%).
+        const quizLink = moduleCard.querySelector('.module-quiz-link');
+        if (quizLink) {
+            quizLink.style.display = (stats.totalLessons > 0 && stats.percentage === 100) ? 'block' : 'none';
+        }
         const progressContainer = moduleCard.querySelector('.module-progress');
         if (!progressContainer) return;
         if (module.id === 'module-07' || stats.totalLessons === 0) {

@@ -134,36 +134,46 @@ function renderQuestions() {
 
 // --- 3) Handle the "ตรวจคำตอบ" (submit) click ------------------------------
 function handleSubmit() {
-    let correct = 0;           // how many the user got right
-    const total = questions.length;
-
-    // Go through each question, see what the user picked, mark it right/wrong.
-    questions.forEach((item, qi) => {
-        // Find the chosen radio for this question (or null if none picked).
+    // Collect the user's chosen answer index for each question (-1 = not answered).
+    const answers = questions.map((item, qi) => {
         const chosen = formEl.querySelector(`input[name="q${qi}"]:checked`);
-        const chosenIndex = chosen ? parseInt(chosen.value, 10) : -1;
-        if (chosenIndex === item.answer) correct++;
+        return chosen ? parseInt(chosen.value, 10) : -1;
     });
 
+    const total = questions.length;
+    let correct = 0;
+    answers.forEach((a, qi) => { if (a === questions[qi].answer) correct++; });
     const percent = Math.round((correct / total) * 100);
 
-    // Show the result panel + per-question review.
-    renderResult(correct, total, percent);
+    // Show the result + review, and hide the interactive form (answered → review only).
+    renderResult(answers, correct, total, percent);
+    formEl.style.display = 'none';
 
-    // Save to Firebase if the user is logged in (currentUser is null when logged out).
-    saveScore(correct, total, percent);
+    // Save to Firebase if logged in (also stores the chosen answers for later review).
+    saveScore(correct, total, percent, answers);
 
-    // Replace the submit button with a "retake" button.
-    actionsEl.innerHTML =
-        '<button type="button" id="quiz-retake-btn" class="quiz-btn-secondary">ทำแบบทดสอบใหม่</button>';
-    document.getElementById('quiz-retake-btn').addEventListener('click', retake);
-
-    // Scroll the result into view so the user sees their score right away.
+    showRetakeButton();
     resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// Put a single "ทำแบบทดสอบใหม่" (retake) button in the actions row.
+function showRetakeButton() {
+    actionsEl.innerHTML =
+        '<button type="button" id="quiz-retake-btn" class="quiz-btn-secondary">ทำแบบทดสอบใหม่</button>';
+    document.getElementById('quiz-retake-btn').addEventListener('click', retake);
+}
+
+// Show a previously-saved attempt as a read-only review (used on load when the
+// quiz was already taken): hides the interactive form, shows only the answers.
+function showSavedReview(saved) {
+    if (!Array.isArray(saved.answers)) return;   // old saves without answers: skip review
+    formEl.style.display = 'none';
+    renderResult(saved.answers, saved.score, saved.total, saved.percent);
+    showRetakeButton();
+}
+
 // --- 4) Draw the result panel + per-question review ------------------------
-function renderResult(correct, total, percent) {
+function renderResult(answers, correct, total, percent) {
     // Top summary panel: score X/total and percent.
     let html = `
         <div class="quiz-score-panel">
@@ -174,8 +184,7 @@ function renderResult(correct, total, percent) {
 
     // One review block per question.
     questions.forEach((item, qi) => {
-        const chosen = formEl.querySelector(`input[name="q${qi}"]:checked`);
-        const chosenIndex = chosen ? parseInt(chosen.value, 10) : -1;
+        const chosenIndex = (answers && answers[qi] !== undefined) ? answers[qi] : -1;
         const isCorrect = chosenIndex === item.answer;
 
         // Build the choices list, colouring the correct one green and a wrong pick red.
@@ -217,12 +226,13 @@ function renderResult(correct, total, percent) {
 // --- 5) Reset everything so the user can try again -------------------------
 function retake() {
     resultEl.innerHTML = '';
+    formEl.style.display = '';               // show the interactive form again
     renderQuestions();                       // redraw fresh questions (clears picks)
     formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // --- 6) Firebase: save the score (only when logged in) ---------------------
-function saveScore(score, total, percent) {
+function saveScore(score, total, percent, answers) {
     // firebase.auth().currentUser is null when nobody is signed in.
     const user = firebase.auth().currentUser;
     if (!user) {
@@ -233,7 +243,7 @@ function saveScore(score, total, percent) {
         return;
     }
     // Logged in: write to quizScores/$uid/$moduleId.
-    const data = { score: score, total: total, percent: percent, at: Date.now() };
+    const data = { score: score, total: total, percent: percent, answers: answers, at: Date.now() };
     firebase.database().ref('quizScores/' + user.uid + '/' + moduleId).set(data)
         .then(() => {
             savedNote.textContent = `บันทึกคะแนนแล้ว: ${score}/${total} (${percent}%)`;
@@ -261,6 +271,7 @@ if (questions && questions.length > 0) {
                             `คะแนนล่าสุดของคุณ: ${saved.score}/${saved.total} (${saved.percent}%)`;
                         savedNote.classList.add('quiz-note-ok');
                         savedNote.classList.remove('quiz-note-warn');
+                        showSavedReview(saved);   // already taken → show answers, hide form
                     } else {
                         savedNote.textContent = 'ยังไม่มีคะแนนที่บันทึกไว้ — ลองทำแบบทดสอบดู!';
                         savedNote.classList.remove('quiz-note-warn', 'quiz-note-ok');
