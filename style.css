@@ -365,6 +365,53 @@ strong { color: var(--primary-color); font-weight: 600; }
 }
 .troubleshooting-steps p:first-child { margin-top: 0; font-weight: 700; color: #c0392b; }
 
+/* === CONTENT-ENRICHMENT COMPONENTS (added for lesson depth) === */
+/* Safety warning callout — for high-voltage / LOTO / capacitor-discharge hazards. */
+.safety-warning {
+    border-left: 5px solid #c0392b;
+    background-color: #fdecea;
+    padding: 14px 18px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+}
+.safety-warning > :first-child { margin-top: 0; }
+.safety-warning strong, .safety-warning b { color: #a5281b; }
+
+/* Reference / threshold tables — clean technical table. */
+table.ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95em;
+}
+table.ref-table caption {
+    caption-side: top;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    text-align: left;
+}
+table.ref-table th,
+table.ref-table td {
+    border: 1px solid var(--card-border-color);
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+table.ref-table th { background-color: var(--primary-color); color: #fff; font-weight: 600; }
+table.ref-table tr:nth-child(even) td { background-color: var(--light-gray-color); }
+
+/* Diagnostic decision tree — a styled nested list (branch logic). */
+.decision-tree {
+    background: #faf8f2;
+    border-left: 4px solid var(--accent-color);
+    padding: 14px 18px 14px 36px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+}
+.decision-tree li { margin-bottom: 8px; }
+.decision-tree ul, .decision-tree ol { margin-top: 8px; }
+
 /* ====================================================== */
 /* === MOBILE-FIRST RESPONSIVE (improved)          ===     */
 /* ====================================================== */
