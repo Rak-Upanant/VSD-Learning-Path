@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบ — VSD Maintenance Learning Path</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="vsd-learning-path">
+
+        <h1>📝 แบบทดสอบ</h1>
+
+        <!-- auth.js draws the login button / greeting into this container -->
+        <div id="auth-container"></div>
+
+        <!-- Quiz title (module name) is filled in by JS -->
+        <h2 id="quiz-title">แบบทดสอบ</h2>
+
+        <!-- A small note that shows the previously saved score (when logged in)
+             or a "log in to save" hint (when logged out). Filled in by JS. -->
+        <div id="quiz-saved-note" class="quiz-saved-note"></div>
+
+        <!-- The questions get rendered here -->
+        <form id="quiz-form" class="quiz-form"></form>
+
+        <!-- Submit / retake buttons live here -->
+        <div id="quiz-actions" class="quiz-actions"></div>
+
+        <!-- The result + per-question review gets rendered here after submit -->
+        <div id="quiz-result" class="quiz-result"></div>
+
+        <!-- Footer: link back home -->
+        <div class="lesson-footer">
+            <div class="lesson-nav">
+                <div></div>
+                <a href="index.html" class="nav-button home-button">🏠 กลับหน้าแรก</a>
+                <div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Firebase SDKs (same versions and order as roadmap.html) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<!-- Shared auth button/greeting. NOTE: we do NOT load scripts.js here, because
+     that file starts the lesson/home ProgressTracker which this page does not need. -->
+<script src="auth.js"></script>
+<!-- The quiz question data: const QUIZZES = { 'module-01': [...], ... } -->
+<script src="quizzes.js"></script>
+
+<script>
+/* ============================================================
+   QUIZ PAGE LOGIC
+   ------------------------------------------------------------
+   This page is reusable for every module. It reads which module
+   to show from the URL, e.g.  quiz.html?m=module-01
+   ============================================================ */
+
+// --- 1) Work out which module's quiz to show -------------------------------
+// URLSearchParams reads the "?m=..." part of the address.
+const params = new URLSearchParams(window.location.search);
+const moduleId = params.get('m');                 // e.g. "module-01" (or null)
+const questions = QUIZZES[moduleId];              // the array of questions, or undefined
+
+// Grab the page elements we will fill in.
+const titleEl   = document.getElementById('quiz-title');
+const formEl    = document.getElementById('quiz-form');
+const actionsEl = document.getElementById('quiz-actions');
+const resultEl  = document.getElementById('quiz-result');
+const savedNote = document.getElementById('quiz-saved-note');
+
+// A friendly Thai name for each module id (used as the quiz heading).
+const MODULE_NAMES = {
+    'module-01': 'Module 01: Introduction',
+    'module-02': 'Module 02: AC Motor Fundamentals',
+    'module-03': 'Module 03: Control & Operation',
+    'module-04': 'Module 04: Parameter & Config',
+    'module-05': 'Module 05: Application & Benefits',
+    'module-06': 'Module 06: Troubleshooting & Maintenance'
+};
+
+// If the module id is missing or has no questions, show a friendly message and stop.
+if (!questions || questions.length === 0) {
+    titleEl.textContent = 'ไม่พบแบบทดสอบ';
+    savedNote.textContent = 'ลิงก์แบบทดสอบไม่ถูกต้อง กรุณากลับไปเลือกโมดูลจากหน้าแรก';
+    savedNote.classList.add('quiz-note-warn');
+} else {
+    // Set the heading to the module name.
+    titleEl.textContent = MODULE_NAMES[moduleId] || moduleId;
+    renderQuestions();   // draw the questions + submit button
+}
+
+// --- 2) Draw the questions -------------------------------------------------
+function renderQuestions() {
+    // Build the HTML for every question as a "card".
+    // We use the loop index `qi` for ids so each question's radios are a group.
+    let html = '';
+    questions.forEach((item, qi) => {
+        // Build the four radio choices for this question.
+        let choicesHtml = '';
+        item.choices.forEach((choice, ci) => {
+            // name="q{qi}" groups the 4 radios so only one can be picked.
+            // value="{ci}" stores which choice index the user selected.
+            choicesHtml += `
+                <label class="quiz-choice">
+                    <input type="radio" name="q${qi}" value="${ci}">
+                    <span class="quiz-choice-text">${choice}</span>
+                </label>`;
+        });
+
+        html += `
+            <div class="quiz-question" id="quiz-question-${qi}">
+                <div class="quiz-question-head">
+                    <span class="quiz-qnum">ข้อ ${qi + 1}</span>
+                    <p class="quiz-qtext">${item.q}</p>
+                </div>
+                <div class="quiz-choices">${choicesHtml}</div>
+            </div>`;
+    });
+    formEl.innerHTML = html;
+
+    // Add the submit button.
+    actionsEl.innerHTML =
+        '<button type="button" id="quiz-submit-btn" class="quiz-btn-primary">ตรวจคำตอบ</button>';
+    document.getElementById('quiz-submit-btn').addEventListener('click', handleSubmit);
+}
+
+// --- 3) Handle the "ตรวจคำตอบ" (submit) click ------------------------------
+function handleSubmit() {
+    let correct = 0;           // how many the user got right
+    const total = questions.length;
+
+    // Go through each question, see what the user picked, mark it right/wrong.
+    questions.forEach((item, qi) => {
+        // Find the chosen radio for this question (or null if none picked).
+        const chosen = formEl.querySelector(`input[name="q${qi}"]:checked`);
+        const chosenIndex = chosen ? parseInt(chosen.value, 10) : -1;
+        if (chosenIndex === item.answer) correct++;
+    });
+
+    const percent = Math.round((correct / total) * 100);
+
+    // Show the result panel + per-question review.
+    renderResult(correct, total, percent);
+
+    // Save to Firebase if the user is logged in (currentUser is null when logged out).
+    saveScore(correct, total, percent);
+
+    // Replace the submit button with a "retake" button.
+    actionsEl.innerHTML =
+        '<button type="button" id="quiz-retake-btn" class="quiz-btn-secondary">ทำแบบทดสอบใหม่</button>';
+    document.getElementById('quiz-retake-btn').addEventListener('click', retake);
+
+    // Scroll the result into view so the user sees their score right away.
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// --- 4) Draw the result panel + per-question review ------------------------
+function renderResult(correct, total, percent) {
+    // Top summary panel: score X/total and percent.
+    let html = `
+        <div class="quiz-score-panel">
+            <div class="quiz-score-big"><span class="quiz-score-num">${correct}</span>/<span class="quiz-score-num">${total}</span></div>
+            <div class="quiz-score-pct"><span class="quiz-score-num">${percent}%</span></div>
+        </div>
+        <h3 class="quiz-review-heading">เฉลยและคำอธิบาย</h3>`;
+
+    // One review block per question.
+    questions.forEach((item, qi) => {
+        const chosen = formEl.querySelector(`input[name="q${qi}"]:checked`);
+        const chosenIndex = chosen ? parseInt(chosen.value, 10) : -1;
+        const isCorrect = chosenIndex === item.answer;
+
+        // Build the choices list, colouring the correct one green and a wrong pick red.
+        let choicesHtml = '';
+        item.choices.forEach((choice, ci) => {
+            let cls = 'quiz-review-choice';
+            let mark = '';
+            if (ci === item.answer) {
+                cls += ' is-correct';            // the right answer is always green
+                mark = '<span class="quiz-mark">✔</span>';
+            } else if (ci === chosenIndex) {
+                cls += ' is-incorrect';          // the user's wrong pick is red
+                mark = '<span class="quiz-mark">✘</span>';
+            }
+            choicesHtml += `<li class="${cls}">${mark}<span>${choice}</span></li>`;
+        });
+
+        // "ไม่ได้ตอบ" = not answered, shown when the user skipped a question.
+        const userPickText = chosenIndex === -1
+            ? '<em>ไม่ได้ตอบ</em>'
+            : item.choices[chosenIndex];
+
+        html += `
+            <div class="quiz-review ${isCorrect ? 'review-correct' : 'review-incorrect'}">
+                <div class="quiz-review-head">
+                    <span class="quiz-qnum">ข้อ ${qi + 1}</span>
+                    <span class="quiz-review-tag">${isCorrect ? 'ถูกต้อง' : 'ไม่ถูกต้อง'}</span>
+                </div>
+                <p class="quiz-qtext">${item.q}</p>
+                <ul class="quiz-review-choices">${choicesHtml}</ul>
+                <p class="quiz-review-your">คำตอบของคุณ: ${userPickText}</p>
+                <p class="quiz-explain">💡 ${item.explain}</p>
+            </div>`;
+    });
+
+    resultEl.innerHTML = html;
+}
+
+// --- 5) Reset everything so the user can try again -------------------------
+function retake() {
+    resultEl.innerHTML = '';
+    renderQuestions();                       // redraw fresh questions (clears picks)
+    formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// --- 6) Firebase: save the score (only when logged in) ---------------------
+function saveScore(score, total, percent) {
+    // firebase.auth().currentUser is null when nobody is signed in.
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        // Logged out: just remind the user to log in to save (no error thrown).
+        savedNote.textContent = 'เข้าสู่ระบบเพื่อบันทึกคะแนน';
+        savedNote.classList.add('quiz-note-warn');
+        savedNote.classList.remove('quiz-note-ok');
+        return;
+    }
+    // Logged in: write to quizScores/$uid/$moduleId.
+    const data = { score: score, total: total, percent: percent, at: Date.now() };
+    firebase.database().ref('quizScores/' + user.uid + '/' + moduleId).set(data)
+        .then(() => {
+            savedNote.textContent = `บันทึกคะแนนแล้ว: ${score}/${total} (${percent}%)`;
+            savedNote.classList.add('quiz-note-ok');
+            savedNote.classList.remove('quiz-note-warn');
+        })
+        .catch(() => {
+            savedNote.textContent = 'บันทึกคะแนนไม่สำเร็จ กรุณาลองใหม่';
+            savedNote.classList.add('quiz-note-warn');
+        });
+}
+
+// --- 7) On load, show any previously saved score ---------------------------
+// This is the page's OWN auth listener, used only to read the saved score.
+// It does NOT draw the auth button (auth.js owns that), so there is no conflict.
+if (questions && questions.length > 0) {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            // Read this module's saved score once.
+            firebase.database().ref('quizScores/' + user.uid + '/' + moduleId).once('value')
+                .then(snapshot => {
+                    const saved = snapshot.val();
+                    if (saved) {
+                        savedNote.textContent =
+                            `คะแนนล่าสุดของคุณ: ${saved.score}/${saved.total} (${saved.percent}%)`;
+                        savedNote.classList.add('quiz-note-ok');
+                        savedNote.classList.remove('quiz-note-warn');
+                    } else {
+                        savedNote.textContent = 'ยังไม่มีคะแนนที่บันทึกไว้ — ลองทำแบบทดสอบดู!';
+                        savedNote.classList.remove('quiz-note-warn', 'quiz-note-ok');
+                    }
+                });
+        } else {
+            // Logged out: hint that signing in will save the score.
+            savedNote.textContent = 'เข้าสู่ระบบเพื่อบันทึกคะแนน';
+            savedNote.classList.add('quiz-note-warn');
+            savedNote.classList.remove('quiz-note-ok');
+        }
+    });
+}
+</script>
+</body>
+</html>

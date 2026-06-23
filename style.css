@@ -1034,3 +1034,264 @@ strong { color: var(--primary-color); font-weight: 600; }
     .roadmap-banner-actions { width: 100%; }
     .roadmap-banner-btn { flex: 1; text-align: center; }
 }
+
+/* ============================================================
+   QUIZ PER MODULE  (quiz.html)
+   "Instrument Panel" look — ink + amber, IBM Plex; mono for scores.
+   ============================================================ */
+
+/* The small note under the title: previous score / "log in to save". */
+.quiz-saved-note {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: var(--light-gray-color);
+    border-left: 4px solid var(--medium-gray-color);
+    color: var(--dark-gray-color);
+    margin-bottom: 24px;
+}
+/* Green border when there is a saved/ok message. */
+.quiz-saved-note.quiz-note-ok {
+    border-left-color: var(--success-color);
+    color: var(--success-color);
+}
+/* Amber border for "log in to save" / warnings. */
+.quiz-saved-note.quiz-note-warn {
+    border-left-color: var(--accent-color);
+    color: var(--accent-hover-color);
+}
+
+/* --- Question cards --- */
+.quiz-form { margin: 0 0 24px 0; }
+
+.quiz-question {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-left: 5px solid var(--accent-color);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    padding: 20px 22px;
+    margin-bottom: 18px;
+}
+.quiz-question-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+/* The "ข้อ N" badge — mono, amber tint, like the roadmap pills. */
+.quiz-qnum {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--accent-hover-color);
+    background-color: var(--accent-soft);
+    padding: 3px 9px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+.quiz-qtext {
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* --- Choices (radio rows) --- */
+.quiz-choices {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.quiz-choice {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--card-border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.quiz-choice:hover {
+    background-color: var(--light-gray-color);
+    border-color: var(--primary-color);
+}
+.quiz-choice input[type="radio"] {
+    accent-color: var(--accent-color);   /* amber radio dot */
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.quiz-choice-text {
+    color: var(--text-color);
+    line-height: 1.5;
+}
+/* When a choice is picked, tint its row (uses :has on the label). */
+.quiz-choice:has(input:checked) {
+    background-color: var(--accent-soft);
+    border-color: var(--accent-color);
+}
+
+/* --- Action buttons (submit / retake) --- */
+.quiz-actions { margin-bottom: 28px; }
+.quiz-btn-primary,
+.quiz-btn-secondary {
+    font-family: var(--font-sans);
+    font-size: 1.05em;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: 2px solid var(--accent-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.quiz-btn-primary {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+.quiz-btn-primary:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
+.quiz-btn-secondary {
+    background-color: transparent;
+    color: var(--accent-hover-color);
+}
+.quiz-btn-secondary:hover {
+    background-color: var(--accent-soft);
+}
+
+/* --- Result panel --- */
+.quiz-result { margin-bottom: 10px; }
+.quiz-score-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background-color: var(--primary-color);
+    border-bottom: 4px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 28px 20px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+.quiz-score-big { font-size: 2.4em; }
+.quiz-score-pct { font-size: 2.4em; }
+/* Score numbers use the mono font, like every other metric on the site. */
+.quiz-score-num {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent-color);
+}
+.quiz-review-heading {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--medium-gray-color);
+}
+
+/* --- Per-question review blocks --- */
+.quiz-review {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+}
+.quiz-review.review-correct   { border-left: 5px solid var(--success-color); }
+.quiz-review.review-incorrect { border-left: 5px solid #c0392b; }
+.quiz-review-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.quiz-review-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+}
+.review-correct .quiz-review-tag   { color: var(--success-color); background-color: #e3f1e8; }
+.review-incorrect .quiz-review-tag { color: #c0392b; background-color: #fbe6e3; }
+
+.quiz-review-choices {
+    list-style: none;
+    margin: 12px 0;
+    padding: 0;
+}
+.quiz-review-choice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+.quiz-review-choice.is-correct {
+    background-color: #e3f1e8;
+    color: var(--success-color);
+    font-weight: 600;
+}
+.quiz-review-choice.is-incorrect {
+    background-color: #fbe6e3;
+    color: #c0392b;
+    font-weight: 600;
+}
+.quiz-mark {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.quiz-review-your {
+    font-size: 0.92em;
+    color: var(--dark-gray-color);
+    margin: 8px 0 4px 0;
+}
+.quiz-explain {
+    background-color: var(--light-gray-color);
+    border-left: 4px solid var(--accent-color);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0 0 0;
+    color: var(--text-color);
+    line-height: 1.55;
+}
+
+/* --- The "📝 ทำแบบทดสอบ" button on each home-page module card --- */
+.module-quiz-link {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--accent-hover-color);
+    background-color: var(--accent-soft);
+    border-top: 1px solid var(--medium-gray-color);
+    padding: 12px 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.module-quiz-link:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+}
+/* The saved "%" shown after the label uses the mono font. */
+.module-quiz-score {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    margin-left: 8px;
+    opacity: 0.85;
+}
+
+/* --- Quiz responsive tweaks --- */
+@media (max-width: 768px) {
+    .quiz-question { padding: 16px; }
+    .quiz-question-head { flex-direction: column; gap: 8px; }
+    .quiz-choice { padding: 12px; }
+    .quiz-score-panel { gap: 24px; padding: 20px 12px; }
+    .quiz-score-big, .quiz-score-pct { font-size: 1.9em; }
+    .quiz-btn-primary, .quiz-btn-secondary { width: 100%; }
+}

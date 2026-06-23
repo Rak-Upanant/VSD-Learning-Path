@@ -94,6 +94,7 @@ class ProgressTracker {
             if (user) {
                 this.userId = user.uid;
                 this.loadProgress();
+                updateQuizScores(user.uid);   // home page: show saved quiz %
             } else {
                 // User signed out: stop listening to the previous user's data
                 if (this.progressRef) {
@@ -105,6 +106,7 @@ class ProgressTracker {
                 updateHomePageLinks();
                 updateProgressBar();
                 updateAllModuleProgress();
+                updateQuizScores(null);       // home page: clear saved quiz %
                 if (lessonContainer) {
                     initializeLessonPage(lessonContainer);
                 }
@@ -279,8 +281,15 @@ function renderModuleCards() {
                         <div class="module-progress-text">0% (0/0)</div>
                     </div>`;
 
+        // --- Quiz button (modules 01–06 only; Resource Center has no quiz) ---
+        // Links to the reusable quiz page, e.g. quiz.html?m=module-01.
+        // The "<span class="module-quiz-score">" is filled in later with the
+        // saved % once the logged-in user's scores load (updateQuizScores).
+        const quizLink = isResourceCenter ? '' : `
+                    <a class="module-quiz-link" href="quiz.html?m=${module.id}">📝 ทำแบบทดสอบ<span class="module-quiz-score"></span></a>`;
+
         return `
-                <div id="${module.id}" class="module-card">${header}${lessonList}${progress}
+                <div id="${module.id}" class="module-card">${header}${lessonList}${progress}${quizLink}
                 </div>`;
     };
 
@@ -329,6 +338,30 @@ function updateAllModuleProgress() {
             <div class="module-progress-text">${stats.percentage}% (${stats.completedCount}/${stats.totalLessons})</div>
         `;
     });
+}
+
+// Show the saved quiz score (%) on each module card's "ทำแบบทดสอบ" button.
+// Reads quizScores/$uid ONCE when logged in; clears the text when logged out.
+// `uid` is the user id string, or null when signed out.
+function updateQuizScores(uid) {
+    // Helper to write the % text (or clear it) on every module's quiz button.
+    const setScores = (scores) => {
+        document.querySelectorAll('.module-card').forEach(card => {
+            const span = card.querySelector('.module-quiz-score');
+            if (!span) return;                       // module-07 has no quiz button
+            const saved = scores && scores[card.id]; // e.g. scores['module-01']
+            span.textContent = saved ? `· ${saved.percent}%` : '';
+        });
+    };
+
+    if (!uid) {
+        setScores(null);                             // logged out: clear all
+        return;
+    }
+    // Read this user's quiz scores once (not a live listener — a one-time read).
+    firebase.database().ref('quizScores/' + uid).once('value')
+        .then(snapshot => setScores(snapshot.val()))
+        .catch(() => setScores(null));               // on error, just show no %
 }
 
 function initializeLessonPage(container) {
