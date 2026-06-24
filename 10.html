@@ -83,6 +83,51 @@
                 </ol>
             </div>
 
+            <table class="ref-table">
+                <caption>เช็กลิสต์การเลือกมอเตอร์สำหรับใช้งานร่วมกับ VSD (ค่าทั่วไป/ตัวอย่าง — ต้องตรวจสอบกับคู่มือของอุปกรณ์เสมอ)</caption>
+                <thead>
+                    <tr>
+                        <th>หัวข้อที่ต้องตรวจสอบ</th>
+                        <th>สิ่งที่ควรเลือก / เหตุผล</th>
+                        <th>ค่าทั่วไป/ตัวอย่าง</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>พิกัดสำหรับงานอินเวอร์เตอร์ (Inverter-Duty Rating)</td>
+                        <td>เลือกมอเตอร์ที่ระบุว่าเป็น Inverter-Duty/Inverter-Ready เพื่อทนแรงดันกระชาก (voltage spikes) จาก VSD</td>
+                        <td>ผ่าน NEMA MG 1 Part 31</td>
+                    </tr>
+                    <tr>
+                        <td>คลาสของฉนวน (Insulation Class)</td>
+                        <td>เลือกคลาส F หรือ H เพื่อรองรับความร้อนที่สูงขึ้นเมื่อใช้กับ VSD</td>
+                        <td>Class F หรือ H</td>
+                    </tr>
+                    <tr>
+                        <td>Service Factor (SF)</td>
+                        <td>SF ที่สูงขึ้นช่วยเผื่อความร้อนส่วนเกินจากฮาร์มอนิก</td>
+                        <td>≥ 1.15</td>
+                    </tr>
+                    <tr>
+                        <td>การลดพิกัดสำหรับใช้กับ VFD (Derating)</td>
+                        <td>ลดพิกัดกำลังเพื่อชดเชยฮาร์มอนิกและการระบายความร้อนที่ลดลงที่ความเร็วต่ำ</td>
+                        <td>Derating Factor ~0.9</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example-block">
+                <h4>🛠️ ตัวอย่าง: เลือกมอเตอร์สำหรับสายพานลำเลียง</h4>
+                <p>สมมติต้องการมอเตอร์สำหรับสายพานที่ต้องการกำลังจริงประมาณ <strong>9 HP</strong> และจะขับด้วย VSD เราเลือกตามเช็กลิสต์ดังนี้:</p>
+                <ol>
+                    <li>เลือกมอเตอร์ <strong>Inverter-Duty</strong> ที่ผ่านมาตรฐาน NEMA MG 1 Part 31</li>
+                    <li>เลือกฉนวน <strong>Class F</strong> และ Service Factor <strong>1.15</strong></li>
+                    <li>เผื่อ Derating: หากใช้ Derating Factor 0.9 มอเตอร์ขนาดพิกัดต้อง ≥ 9 ÷ 0.9 = <strong>10 HP</strong></li>
+                    <li>จึงเลือกมอเตอร์ขนาด <strong>10 HP, Class F, SF 1.15, Inverter-Duty</strong></li>
+                </ol>
+                <p style="font-size:0.9em;"><em>หมายเหตุ: ค่าทั้งหมดเป็นค่าทั่วไป/ตัวอย่างเพื่อการเรียนรู้ ในงานจริงต้องตรวจสอบ Derating Factor และข้อกำหนดกับคู่มือของผู้ผลิตมอเตอร์และ VSD เสมอ</em></p>
+            </div>
+
             <div class="conclusion">
                 <h3>🏁 สรุปและขั้นตอนต่อไป</h3>
                 <p>
